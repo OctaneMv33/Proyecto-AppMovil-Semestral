@@ -1,0 +1,7 @@
+{
+  "name": "MiAsistencia",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
