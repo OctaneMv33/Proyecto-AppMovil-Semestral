@@ -1,20 +1,26 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
+  <div class="banner">
+    <ion-toolbar>
+      <ion-title class="ion-text-center">
+        MiAsistencia
+      </ion-title>
+    </ion-toolbar>
+  </div>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <div class="saludo">
+    <ion-title class="ion-text-center texto">
+      <h1>Bienvenido <b>"Usuario" <!--Aquí toca esperar a que los pibes hagan el formulario, para poner la variable en reemplazo del texto--> </b></h1>
+    </ion-title>
   </div>
+
+  <div class="contenido">
+    <!--El botón activa la cámara y la función QR-->
+    <ion-button id="asistenciaId" class="botones" color="amarillo-duoc" expand="full">
+      <ion-icon name="enter-outline" class="margen-der"></ion-icon>
+      Registrar Asistencia
+    </ion-button>
+  </div>
+
 </ion-content>
