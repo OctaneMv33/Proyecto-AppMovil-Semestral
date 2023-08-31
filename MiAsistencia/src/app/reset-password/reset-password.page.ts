@@ -6,7 +6,7 @@ import { Animation, AnimationController } from '@ionic/angular';
   templateUrl: './reset-password.page.html',
   styleUrls: ['./reset-password.page.scss'],
 })
-export class ResetPasswordPage  {
+export class ResetPasswordPage implements OnInit {
 
   constructor(private animationCtrl: AnimationController) {}
 
