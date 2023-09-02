@@ -1,12 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
+  dato: string | null = null ;
 
-  constructor() {}
+  constructor(private activatedRoute: ActivatedRoute) { }
 
+  ngOnInit() {
+    this.activatedRoute.paramMap.subscribe(params => {
+      this.dato = params.get('data');
+    });
+  }
 }

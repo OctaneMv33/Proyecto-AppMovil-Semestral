@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Animation, AnimationController } from '@ionic/angular';
+import { User } from '../app.model';
+import { Router , NavigationExtras} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -7,9 +10,75 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginPage implements OnInit {
 
-  constructor() { }
+  usuarios: User[] = [
+    { id: 1, usuario: 'juanito', contrasena: '1234' },
+    { id: 2, usuario: 'Palacios', contrasena: '4321' },
+    { id: 3, usuario: 'Rico', contrasena: '2234' },
+    { id: 4, usuario: 'Martinez', contrasena: '2222' }
+  ];
 
-  ngOnInit() {
+  usuario: string = '';
+  contrasena: string = '';
+  
+
+  constructor(private animationCtrl: AnimationController, private router: Router) {}
+  async animarTitulo() {
+    const animation: Animation = this.animationCtrl.create()
+      .addElement(document.querySelectorAll('.titulo'))
+      .duration(3500)
+      .iterations(Infinity)
+      .keyframes([
+        { offset: 0, opacity: 1, transform: 'translateX(0%)' },
+        { offset: 0.5, opacity: 0.2, transform: 'translateX(100%)' },
+        { offset: 0.501, opacity: 0, transform: 'translateX(-100%)' },
+        { offset: 0.52, opacity: 0.2, transform: 'translateX(-100%)' }
+      ]);
+    await animation.play()
   }
 
+  async animarLimpiar() {
+    const animation: Animation = this.animationCtrl.create()
+      .addElement(document.querySelectorAll('.shake'))
+      .duration(700)
+      .keyframes([
+        { offset: 0, transform: 'translateX(0)' },
+        { offset: 0.1, transform: 'translateX(-5px)' },
+        { offset: 0.2, transform: 'translateX(5px)' },
+        { offset: 0.3, transform: 'translateX(-5px)' },
+        { offset: 0.4, transform: 'translateX(5px)' },
+        { offset: 0.5, transform: 'translateX(-5px)' },
+        { offset: 0.6, transform: 'translateX(5px)' },
+        { offset: 0.7, transform: 'translateX(-5px)' },
+        { offset: 0.8, transform: 'translateX(5px)' },
+        { offset: 0.9, transform: 'translateX(-5px)' },
+        { offset: 1, transform: 'translateX(0)' }
+      ]);
+
+    animation.play();
+
+    this.usuario = '';
+    this.contrasena = '';
+  }
+
+  ingresar(){
+    for (let i = 0; i < this.usuarios.length; i++) {
+    const usuario = (document.getElementById('usuario') as HTMLIonInputElement).value;
+    const contrasena = (document.getElementById('contrasena') as HTMLIonInputElement).value;
+    let arg = usuario;
+
+    if (usuario === this.usuarios[i].usuario && contrasena === this.usuarios[i].contrasena){
+      this.router.navigate(['/home',arg]);
+    }
+    else {
+      console.log('Error en el ingreso');
+    }
+  }
+}
+
+
+
+
+  ngOnInit() {
+    this.animarTitulo();
+  }
 }
