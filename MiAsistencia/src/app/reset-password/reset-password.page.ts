@@ -6,68 +6,53 @@ import { Animation, AnimationController,ToastController } from '@ionic/angular';
   templateUrl: './reset-password.page.html',
   styleUrls: ['./reset-password.page.scss'],
 })
-
 export class ResetPasswordPage implements OnInit {
 
+  // Campos para limpiar
   email: string = '';
   password: string = '';
 
-  constructor(private animationCtrl: AnimationController, private toastController: ToastController ) {}
+  constructor(
+    private animationCtrl: AnimationController,
+    private toastController: ToastController
+  ) {}
 
   ngOnInit() {
-  
+    // Lógica de inicialización si es necesario
   }
 
-  async animar() {
-    const elementosAnimar = document.querySelectorAll(' .titulo');
-
-    const animation: Animation = this.animationCtrl.create()
-      .addElement(elementosAnimar)
-      .duration(3500)
-      .iterations(Infinity)
-      .keyframes([
-   
-        { offset: 0.5, opacity: 0.2, transform: 'translateX(100%)' },
-        { offset: 0.501, opacity: 0, transform: 'translateX(-100%)' },
-        { offset: 0.52, opacity: 0.2, transform: 'translateX(-100%)' }
-      ]);
-      
-      
-
-      animation.direction('reverse'); 
-
-    await animation.play();
-
-    this.mostrarMensajeContrasenaCambiada();
-  }
-
-
-  async mostrarMensajeContrasenaCambiada() {
-    const toast = await this.toastController.create({
-      message: 'Contraseña cambiada exitosamente',
-      duration: 2000, // Duración en milisegundos del mensaje
-      position: 'bottom' // Posición del mensaje en la pantalla (puedes ajustarlo según tus preferencias)
-      
-    });
-
-    await toast.present();
-  }
-
-
-
-
-
-
-
-
+  // Limpia los campos de email y contraseña
   limpiarCampos() {
     this.email = '';
     this.password = '';
   }
+
+  // Realiza la animación en el título
+  async animar() {
+    const elementosAnimar = document.querySelectorAll('.titulo');
+
+    const animation: Animation = this.animationCtrl.create()
+      .addElement(elementosAnimar)
+      .duration(1000)
+      .iterations(1)
+      .fromTo('opacity', '0', '1')
+      .fromTo('transform', 'translateX(0)', 'translateX(75px)');
+
+    await animation.play();
+
+    // Muestra el mensaje de contraseña cambiada
+    this.mostrarMensajeContrasenaCambiada();
+  }
+
+  // Muestra un mensaje en la pantalla
+  async mostrarMensajeContrasenaCambiada() {
+    const toast = await this.toastController.create({
+      message: 'Contraseña cambiada exitosamente',
+      duration: 2000, 
+      position: 'bottom' 
+    });
+    
+    await toast.present();
+  }
 }
-  
 
-
-
-  
-   
