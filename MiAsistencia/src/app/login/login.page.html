@@ -1,6 +1,5 @@
 <ion-header [translucent]="true">
   <ion-toolbar class="color-toolbar">
-
     <br><br><br>
     <ion-title style="text-align:center;" class="titulo">Validador de asistencia</ion-title>
     <br><br><br>
@@ -14,42 +13,34 @@
     <img width="200px" [src]="'assets/logo-duoc.png'" alt="Descripción de la imagen">
   </div>
   <br>
-
-
-
-
   <br>
-  <ion-text style="text-align:center;">
+  <ion-text style="text-align:center;" class="texto">
     <h1>¡Bienvenido!</h1>
     <h6>Ingrese sus credenciales DUOC UC para ingresar.</h6>
     <br>
   </ion-text>
-
   <ion-list>
     <ion-item>
-      <ion-input id="usuario" [(ngModel)]="usuario" class="shake" labelPlacement="floating" placeholder="ej.ejemplo">
-        <div  slot="label">Usuario <ion-text class="morado-duoc"></ion-text></div>
+      <ion-input id="usuario" [(ngModel)]="usuario" class="shake texto" labelPlacement="floating" placeholder="ej.ejemplo">
+        <div slot="label">
+          <ion-text class="texto">Usuario</ion-text>
+        </div>
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-input id="contrasena" [(ngModel)]="contrasena" class="shake" type="password" labelPlacement="floating" placeholder="**********">
-        <div  slot="label">Contraseña <ion-text class="morado-duoc"></ion-text></div>
+      <ion-input id="contrasena" [(ngModel)]="contrasena" class="shake texto" type="password" labelPlacement="floating" placeholder="**********">
+        <div slot="label">
+          <ion-text class="texto">Contraseña</ion-text>
+        </div>
       </ion-input>
     </ion-item>
   </ion-list>
-
   <br>
   <ion-text style="text-align: center;">
     <a href="/reset-password" style="display: block; width: 100%;">¿Olvidaste tu contraseña?</a>
-  </ion-text>
-    
-    <br>
-  
-
+  </ion-text>  
   <br>
-  <ion-button expand="block" class="boton-warning" (click)="ingresar()">Ingresar</ion-button>
-  <ion-button expand="block" class="boton-warning" (click)="animarLimpiar()">Limpiar</ion-button>
-
-
-
+  <br>
+  <ion-button expand="block" class="botones" color="amarillo-duoc" (click)="ingresar()"><b>Ingresar</b></ion-button>
+  <ion-button expand="block" class="botones" color="amarillo-duoc" (click)="animarLimpiar()"><b>Limpiar</b></ion-button>
 </ion-content>

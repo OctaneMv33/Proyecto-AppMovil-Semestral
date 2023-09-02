@@ -1,26 +1,12 @@
-.morado-duoc {
-    --color: #002138;
-}
-
-.amarillo-duoc {
-    --color: #F8B31C;
-}
-
-.blanco-duoc{
-    --color: whitesmoke;
-}
-
-.boton-warning{
-    --background: var(--ion-color-warning);
-    --color: whitesmoke;
-}
-
 .color-toolbar{
-    --background: #002138;
-    --color: whitesmoke;
+    background-color: var(--morado-duoc);
+    color: whitesmoke;
 }
 
 .titulo{
     --color:whitesmoke;
 }
 
+.fondo{
+    background-color: var(--blanco-duoc);
+}
