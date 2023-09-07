@@ -11,10 +11,10 @@ import { Router , NavigationExtras} from '@angular/router';
 export class LoginPage implements OnInit {
 
   usuarios: User[] = [
-    { id: 1, usuario: 'juanito', contrasena: '1234' },
-    { id: 2, usuario: 'Palacios', contrasena: '4321' },
-    { id: 3, usuario: 'Rico', contrasena: '2234' },
-    { id: 4, usuario: 'Martinez', contrasena: '2222' }
+    { id: 1, usuario: 'Alvaro', contrasena: '1234' },
+    { id: 2, usuario: 'Manuel', contrasena: '1234' },
+    { id: 3, usuario: 'Javiera', contrasena: '1234' },
+    { id: 4, usuario: 'Erick', contrasena: '1234' }
   ];
 
   usuario: string = '';
@@ -30,7 +30,7 @@ export class LoginPage implements OnInit {
       .keyframes([
         { offset: 0, opacity: 1, transform: 'translateX(0%)' },
         { offset: 0.5, opacity: 0.2, transform: 'translateX(100%)' },
-        { offset: 0.501, opacity: 0, transform: 'translateX(-100%)' },
+        { offset: 0.500001, opacity: 0, transform: 'translateX(-100%)' },
         { offset: 0.52, opacity: 0.2, transform: 'translateX(-100%)' }
       ]);
     await animation.play()
