@@ -66,12 +66,14 @@ export class LoginPage implements OnInit {
     const contrasena = (document.getElementById('contrasena') as HTMLIonInputElement).value;
     let arg = usuario;
 
-    if (usuario === this.usuarios[i].usuario && contrasena === this.usuarios[i].contrasena){
-      this.router.navigate(['/home',arg]);
-    }
-    else {
-      console.log('Error en el ingreso');
-    }
+    if (usuario === this.usuarios[i].usuario){
+      if (contrasena === this.usuarios[i].contrasena){
+        this.router.navigate(['/home',arg]);
+      }
+      else {
+        console.log('Error en el ingreso');
+      }
+    } 
   }
 }
 
