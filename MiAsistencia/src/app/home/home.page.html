@@ -1,14 +1,24 @@
 <ion-header [translucent]="true">
   <div class="banner">
     <ion-toolbar>
-      <ion-title class="ion-text-center">
+      <br><br><br>
+      <ion-title class="ion-text-center titulo">
         MiAsistencia
       </ion-title>
+      <br><br><br>
     </ion-toolbar>
   </div>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+
+  <div class="logout">
+    <ion-button id="logoutId" [routerLink]="['/login']" class="botones" color="amarillo-duoc" color="amarillo-duoc" expand="block">
+      <ion-icon name="log-out-outline" class="margen-der"></ion-icon>
+      <b>Cerrar Sesión</b>
+    </ion-button>
+  </div>
+
   <div class="saludo">
     <ion-title class="ion-text-center texto">
       <h1>Bienvenido <b>{{dato}} <!--Aquí toca esperar a que los pibes hagan el formulario, para poner la variable en reemplazo del texto--> </b></h1>
@@ -16,10 +26,11 @@
   </div>
 
   <div class="contenido">
-    <!--El botón activa la cámara y la función QR-->
-    <ion-button id="asistenciaId" class="botones" color="amarillo-duoc" expand="full">
+    <!--El botón activa la cámara y la función QR ('05/09/2023': Agregué la funcionalidad de routerLink, ya que el profe dijo que teníamos que redirigir
+      del Home a una pestaña que simule el escaneo de QR)-->
+    <ion-button id="asistenciaId" [routerLink]="['/qr-scan']" class="botones" color="amarillo-duoc" expand="block">
       <ion-icon name="enter-outline" class="margen-der"></ion-icon>
-      Registrar Asistencia
+      <b>Registrar Asistencia</b>
     </ion-button>
   </div>
 
