@@ -4,9 +4,15 @@
 }
 
 .titulo{
-    --color:whitesmoke;
+    --color:#f5f5f5;
 }
 
 .fondo{
     background-color: var(--blanco-duoc);
 }
+
+ion-content {
+    --background:url(../login/img/azul.png);
+    --color: #fff;
+    --margin: 10px;
+  }

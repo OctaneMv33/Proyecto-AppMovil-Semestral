@@ -1,25 +1,11 @@
-<ion-header [translucent]="true">
-  <ion-toolbar class="color-toolbar">
-    <br><br><br>
-    <ion-title style="text-align:center;" class="titulo">Validador de asistencia</ion-title>
-    <br><br><br>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <br>
-  <br>
-  <div style="display: flex; justify-content: center;">
-    <a href="/login"><img  width="200px" [src]="'assets/logo-duoc.png'" alt="Descripción de la imagen"></a>
-  </div>
-  <br>
-  <br>
-  <ion-text style="text-align:center;" class="texto">
-    <h1>¡Bienvenido!</h1>
-    <h6>Ingrese sus credenciales DUOC UC para ingresar.</h6>
-    <br>
-  </ion-text>
-  <ion-list>
+<ion-content  style="text-align: center;">
+  <br>  
+  <img class="blanco" src="assets/blanco.png" alt="" width="80%" style="margin: 10%;" >
+  </ion-content>
+  <h1 class="tex" style="text-align: center;">¡Bienvenido!</h1>
+  <h6 class="tex" style="text-align: center;">Ingrese sus credenciales DUOC UC para ingresar.</h6>
+<br>
+  <ion-list class="lista">
     <ion-item>
       <ion-input id="usuario" [(ngModel)]="usuario" class="shake texto" labelPlacement="floating" placeholder="ej.ejemplo">
         <div slot="label">
@@ -40,7 +26,10 @@
     <a href="/reset-password" style="display: block; width: 100%;">¿Olvidaste tu contraseña?</a>
   </ion-text>  
   <br>
+  <ion-button style="margin: 10px;" expand="block" class="botones" color="amarillo-duoc" (click)="ingresar()"><b>Ingresar</b></ion-button>
+  <ion-button style="margin: 10px;" expand="block" class="botones" color="amarillo-duoc" (click)="animarLimpiar()"><b>Limpiar</b></ion-button>
   <br>
-  <ion-button expand="block" class="botones" color="amarillo-duoc" (click)="ingresar()"><b>Ingresar</b></ion-button>
-  <ion-button expand="block" class="botones" color="amarillo-duoc" (click)="animarLimpiar()"><b>Limpiar</b></ion-button>
-</ion-content>
+<ion-footer  collapse="fade">
+  <ion-toolbar  class="ion-text-center">
+    <img src="assets/footer.png" style="width: 20%;" >
+  </ion-toolbar>

@@ -60,6 +60,20 @@ export class LoginPage implements OnInit {
     this.contrasena = '';
   }
 
+  async animarContenido(){
+    const animation: Animation = this.animationCtrl.create()
+      .addElement(document.querySelectorAll('.tex'))
+      .addElement(document.querySelectorAll('.lista'))
+      .addElement(document.querySelectorAll('.botones'))
+      .duration(1500)
+      .keyframes([
+        { offset: 0, opacity: 0.2, transform: 'translateX(-100%)' },
+        { offset: 0.5, opacity: 1, transform: 'translateX(0%)' },
+      ]);
+      await animation.play()
+  }
+  
+
   ingresar(){
     for (let i = 0; i < this.usuarios.length; i++) {
     const usuario = (document.getElementById('usuario') as HTMLIonInputElement).value;
@@ -82,5 +96,6 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     this.animarTitulo();
+    this.animarContenido();
   }
 }
