@@ -21,7 +21,6 @@ export class LoginPage implements OnInit {
   usuario: string = '';
   contrasena: string = '';
   
-
   constructor(private animationCtrl: AnimationController, private router: Router) {}
   async animarTitulo() {
     const animation: Animation = this.animationCtrl.create()
@@ -56,7 +55,6 @@ export class LoginPage implements OnInit {
       ]);
 
     animation.play();
-
     this.usuario = '';
     this.contrasena = '';
   }
@@ -84,16 +82,12 @@ export class LoginPage implements OnInit {
     if (usuario === this.usuarios[i].usuario){
       if (contrasena === this.usuarios[i].contrasena){
         this.router.navigate(['/home',arg]);
-      }
-      else {
+      } else {
         console.log('Error en el ingreso');
-      }
-    } 
+        } 
+      } 
+    }
   }
-}
-
-
-
 
   ngOnInit() {
     this.animarTitulo();
