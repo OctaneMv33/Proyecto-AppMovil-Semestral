@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Animation, AnimationController,ToastController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
+import { Animation, AnimationController } from '@ionic/angular';
 
 @Component({
   selector: 'app-reset-password',
@@ -8,10 +9,28 @@ import { Animation, AnimationController,ToastController } from '@ionic/angular';
 })
 export class ResetPasswordPage  {
 
+  email: string = '';
+  contrasena: string = '';
+  repetircontrasena: string = '';
 
-    constructor(
-      private toastController: ToastController
-    ) {}
+
+  borrarCampos() {
+    this.email = '';
+    this.contrasena = '';
+    this.repetircontrasena = '';
+  }
+
+  async animarLimpiar() {
+    // ... código de animación ...
+  
+    // Llama a la función para borrar los campos después de la animación
+    this.borrarCampos();
+  }
+
+
+
+
+    constructor(private toastController: ToastController) {}
   
     async mostrarMensajeContrasenaCambiada() {
       const toast = await this.toastController.create({
