@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Animation, AnimationController } from '@ionic/angular';
 
 @Component({
@@ -10,8 +10,9 @@ import { Animation, AnimationController } from '@ionic/angular';
 export class HomePage implements OnInit {
   dato: string | null = null ;
 
-  constructor(private activatedRoute: ActivatedRoute, private animationCtrl: AnimationController) { }
+  constructor(private activatedRoute: ActivatedRoute, private animationCtrl: AnimationController, private router: Router) { }
 
+  //Este método anima el título que está en el header de la página
   async animarTitulo() {
     const animation: Animation = this.animationCtrl.create()
       .addElement(document.querySelectorAll('.titulo'))
@@ -26,6 +27,7 @@ export class HomePage implements OnInit {
     await animation.play()
   }
 
+  //Este método anima los botones y texto de la página
   async animarContenido(){
     const animation: Animation = this.animationCtrl.create()
       .addElement(document.querySelectorAll('.contenido'))
@@ -39,10 +41,17 @@ export class HomePage implements OnInit {
       await animation.play()
   }
 
+  //Este método deberá activar la cámara cuando toque aplicar el plugin, por ahora enviará el username al qr-scan page, para luego devolverse en caso de ser necesario.
+  escanearQR(){
+    this.router.navigate(['/qr-scan', this.dato]);
+  }
+
   ngOnInit() {
+    //Al iniciar la página, trae los datos en la URL y los muestra por pantalla
     this.activatedRoute.paramMap.subscribe(params => {
       this.dato = params.get('data');
     });
+    //Al iniciar la página, aplicará las dos animaciones declaradas arriba
     this.animarTitulo()
     this.animarContenido()
   }

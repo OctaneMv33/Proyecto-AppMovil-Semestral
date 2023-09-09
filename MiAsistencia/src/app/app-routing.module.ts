@@ -18,8 +18,9 @@ const routes: Routes = [
   {
     path: 'reset-password',
     loadChildren: () => import('./reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
-  },  {
-    path: 'qr-scan',
+  },
+  {
+    path: 'qr-scan/:data',
     loadChildren: () => import('./qr-scan/qr-scan.module').then( m => m.QrScanPageModule)
   },
 

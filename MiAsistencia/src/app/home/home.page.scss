@@ -35,6 +35,10 @@
   height: 50px;
 }
 
+ion-toolbar{
+  --ion-toolbar-background: var(--morado-duoc);
+}
+
 ion-content {
   --background:url(../home/img/homefondo.png);
   --color: #fff;

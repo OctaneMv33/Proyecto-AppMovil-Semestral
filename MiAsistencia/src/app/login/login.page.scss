@@ -11,6 +11,10 @@
     background-color: var(--blanco-duoc);
 }
 
+ion-toolbar{
+    --ion-toolbar-background: var(--blanco-duoc);
+}
+
 ion-content {
     --background:url(../login/img/azul.png);
     --color: #fff;

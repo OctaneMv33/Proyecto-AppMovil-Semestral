@@ -28,7 +28,7 @@
   <div class="contenido">
     <!--El botón activa la cámara y la función QR ('05/09/2023': Agregué la funcionalidad de routerLink, ya que el profe dijo que teníamos que redirigir
       del Home a una pestaña que simule el escaneo de QR)-->
-    <ion-button id="asistenciaId" [routerLink]="['/qr-scan']" class="botones" color="amarillo-duoc" expand="block">
+    <ion-button id="asistenciaId" (click)="escanearQR()" class="botones" color="amarillo-duoc" expand="block">
       <ion-icon name="enter-outline" class="margen-der"></ion-icon>
       <b>Registrar Asistencia</b>
     </ion-button>
