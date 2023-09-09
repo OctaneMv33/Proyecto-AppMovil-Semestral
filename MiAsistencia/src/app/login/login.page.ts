@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Animation, AnimationController } from '@ionic/angular';
 import { User } from '../app.model';
-import { Router , NavigationExtras} from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +14,8 @@ export class LoginPage implements OnInit {
     { id: 1, usuario: 'Alvaro', contrasena: '1234' },
     { id: 2, usuario: 'Manuel', contrasena: '1234' },
     { id: 3, usuario: 'Javiera', contrasena: '1234' },
-    { id: 4, usuario: 'Erick', contrasena: '1234' }
+    { id: 4, usuario: 'Erick', contrasena: '1234' },
+    { id: 5, usuario: 'Roberto', contrasena: '1234' }
   ];
 
   usuario: string = '';
