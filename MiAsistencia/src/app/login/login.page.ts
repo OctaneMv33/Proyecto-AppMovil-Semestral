@@ -11,11 +11,11 @@ import { Router } from '@angular/router';
 export class LoginPage implements OnInit {
 
   usuarios: User[] = [
-    { id: 1, usuario: 'Alvaro', contrasena: '1234' },
-    { id: 2, usuario: 'Manuel', contrasena: '1234' },
-    { id: 3, usuario: 'Javiera', contrasena: '1234' },
-    { id: 4, usuario: 'Erick', contrasena: '1234' },
-    { id: 5, usuario: 'Roberto', contrasena: '1234' }
+    { id: 1, usuario: 'al.zunigam', contrasena: '1234' },
+    { id: 2, usuario: 'ma.palacioso', contrasena: '1234' },
+    { id: 3, usuario: 'ja.martinezq', contrasena: '1234' },
+    { id: 4, usuario: 'er.galvez', contrasena: '1234' },
+    { id: 5, usuario: 'ro.narbona', contrasena: '1234' }
   ];
 
   usuario: string = '';
