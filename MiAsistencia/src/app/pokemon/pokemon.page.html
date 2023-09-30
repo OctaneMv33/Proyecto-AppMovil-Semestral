@@ -1,0 +1,19 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Pokemon</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  
+  
+  <ion-button (click)="getPosts()">Generar Número Aleatorio</ion-button>
+  
+  <div class="posts" *ngIf="characterData">
+    <h2 style="color:black">{{ characterData.name }}</h2>
+    <img src="{{ characterData.sprites.other['official-artwork'].front_default }}" alt="">
+    <!-- Muestra otros datos del personaje aquí -->
+  </div>
+
+
+</ion-content>

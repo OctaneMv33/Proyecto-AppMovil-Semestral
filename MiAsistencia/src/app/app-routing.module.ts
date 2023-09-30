@@ -23,6 +23,10 @@ const routes: Routes = [
     path: 'qr-scan/:data',
     loadChildren: () => import('./qr-scan/qr-scan.module').then( m => m.QrScanPageModule)
   },
+  {
+    path: 'pokemon',
+    loadChildren: () => import('./pokemon/pokemon.module').then( m => m.PokemonPageModule)
+  },
 
 ];
 
