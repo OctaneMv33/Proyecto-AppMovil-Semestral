@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AngularFireAuthGuard } from '@angular/fire/compat/auth-guard';
+
 
 const routes: Routes = [
   {
-    path: 'home/:data',    /*    /:data   */
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    path: 'home',
+    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule),
+    canActivate: [AngularFireAuthGuard]
   },
   {
     path: '',
@@ -20,8 +23,9 @@ const routes: Routes = [
     loadChildren: () => import('./reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
   },
   {
-    path: 'qr-scan/:data',
-    loadChildren: () => import('./qr-scan/qr-scan.module').then( m => m.QrScanPageModule)
+    path: 'qr-scan',
+    loadChildren: () => import('./qr-scan/qr-scan.module').then( m => m.QrScanPageModule),
+    canActivate: [AngularFireAuthGuard]
   },
 
 ];

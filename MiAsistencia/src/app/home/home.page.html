@@ -11,7 +11,7 @@
 <ion-content [fullscreen]="true">
 
   <div class="logout">
-    <ion-button id="logoutId" [routerLink]="['/login']" class="botones" color="amarillo-duoc" color="amarillo-duoc" expand="block">
+    <ion-button id="logoutId" (click)="salir()" class="botones" color="amarillo-duoc" color="amarillo-duoc" expand="block">
       <ion-icon name="log-out-outline" class="margen-der"></ion-icon>
       <b>Cerrar Sesión</b>
     </ion-button>
@@ -20,7 +20,7 @@
   <div class="saludo">
     <ion-title class="ion-text-center texto">
       <h1>Bienvenido!</h1> 
-        <h3><b>{{dato}}</b></h3><!--Aquí toca esperar a que los pibes hagan el formulario, para poner la variable en reemplazo del texto--> 
+        <h3><b>{{usuario}}</b></h3><!--Aquí toca esperar a que los pibes hagan el formulario, para poner la variable en reemplazo del texto--> 
     </ion-title>
     <br><br>
   </div>

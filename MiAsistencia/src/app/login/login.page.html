@@ -8,20 +8,22 @@
   </div>
   <br>
   <ion-list class="lista">
-    <ion-item>
-      <ion-input id="usuario" [(ngModel)]="usuario" class="shake texto" labelPlacement="floating" placeholder="ej.ejemplo">
-        <div slot="label">
-          <ion-text class="texto">Usuario</ion-text>
-        </div>
-      </ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-input id="contrasena" [(ngModel)]="contrasena" class="shake texto" type="password" labelPlacement="floating" placeholder="**********">
-        <div slot="label">
-          <ion-text class="texto">Contraseña</ion-text>
-        </div>
-      </ion-input>
-    </ion-item>
+    <form [formGroup]="formLogin">
+      <ion-item>
+        <ion-input id="usuario" class="shake texto" formControlName="email" labelPlacement="floating" placeholder="ej.ejemplo">
+          <div slot="label">
+            <ion-text class="texto">Usuario</ion-text>
+          </div>
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input id="contrasena" class="shake texto" formControlName="password" type="password" labelPlacement="floating" placeholder="**********">
+          <div slot="label">
+            <ion-text class="texto">Contraseña</ion-text>
+          </div>
+        </ion-input>
+      </ion-item>
+    </form>
   </ion-list>
   <br>
   <ion-text style="text-align: center;">
