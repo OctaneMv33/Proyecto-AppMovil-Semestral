@@ -1,5 +1,6 @@
 export interface User{
-    id: number;
-    usuario: string;
+    rut: number;
+    dvrut: string;
+    email: string;
     contrasena: string;
 }
