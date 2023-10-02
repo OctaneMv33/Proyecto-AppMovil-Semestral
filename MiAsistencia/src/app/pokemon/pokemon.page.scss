@@ -4,3 +4,8 @@
     padding:1rem;
     margin-top:1rem;
 }
+
+ion-content {
+    --background: url(../../assets/pokemon.png) no-repeat center center fixed;
+    background-size: cover;
+  }
