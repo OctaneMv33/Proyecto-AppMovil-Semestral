@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Animation, AnimationController } from '@ionic/angular';
-import { User } from '../app.model';
-import { Router } from '@angular/router';
+//import { User } from '../app.model';
+import { Router, NavigationExtras } from '@angular/router';
+import { UsuariosService } from '../servicios/usuarios.service';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class LoginPage implements OnInit {
 
-  usuarios: User[] = [
+ /* usuarios: User[] = [
     { id: 1, usuario: 'al.zunigam', contrasena: '1234' },
     { id: 2, usuario: 'ma.palacioso', contrasena: '1234' },
     { id: 3, usuario: 'ja.martinezq', contrasena: '1234' },
@@ -19,9 +21,16 @@ export class LoginPage implements OnInit {
   ];
 
   usuario: string = '';
-  contrasena: string = '';
+  contrasena: string = '';*/
   
-  constructor(private animationCtrl: AnimationController, private router: Router) {}
+  formLogin: FormGroup;
+
+  constructor(private animationCtrl: AnimationController, private router: Router, private usuarioServicio: UsuariosService) {
+    this.formLogin = new FormGroup({
+      email: new FormControl(),
+      password: new FormControl()
+    })
+  }
   async animarTitulo() {
     const animation: Animation = this.animationCtrl.create()
       .addElement(document.querySelectorAll('.titulo'))
@@ -55,8 +64,8 @@ export class LoginPage implements OnInit {
       ]);
 
     animation.play();
-    this.usuario = '';
-    this.contrasena = '';
+    /*this.usuario = '';
+    this.contrasena = '';*/
   }
 
   async animarContenido(){
@@ -74,18 +83,19 @@ export class LoginPage implements OnInit {
   
 
   ingresar(){
-    for (let i = 0; i < this.usuarios.length; i++) {
-    const usuario = (document.getElementById('usuario') as HTMLIonInputElement).value;
-    const contrasena = (document.getElementById('contrasena') as HTMLIonInputElement).value;
-    let arg = usuario;
-
-    if (usuario === this.usuarios[i].usuario){
-      if (contrasena === this.usuarios[i].contrasena){
-        this.router.navigate(['/home',arg]);
-      } else {
-        console.log('Error en el ingreso');
-        } 
-      } 
+    const emailControl = this.formLogin.get('email');
+    if (this.formLogin && emailControl){
+      this.usuarioServicio.login(this.formLogin.value)
+      .then(response =>{
+      console.log(response);
+      const navigationExtras: NavigationExtras = {
+        state: {
+          email: emailControl.value //Me dice que el objeto posiblemente es nulo
+        }
+      };
+      this.router.navigate(['/home'], navigationExtras);
+    })
+    .catch(error => console.log(error));
     }
   }
 

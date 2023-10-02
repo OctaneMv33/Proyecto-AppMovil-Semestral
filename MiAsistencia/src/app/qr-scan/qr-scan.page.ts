@@ -16,7 +16,7 @@ export class QrScanPage implements OnInit {
 
   //Solo para devolvernos desde qr-scan page a home presionando un botón. Luego de la presentación y dependiendo de lo que pidan, tendremos que quitarlo
   volverHome(){
-    this.router.navigate(['/home', this.dato])
+    this.router.navigate(['/home'])
   }
 
   async animarContenido(){
