@@ -64,8 +64,7 @@ export class LoginPage implements OnInit {
       ]);
 
     animation.play();
-    /*this.usuario = '';
-    this.contrasena = '';*/
+    this.formLogin.reset();
   }
 
   async animarContenido(){

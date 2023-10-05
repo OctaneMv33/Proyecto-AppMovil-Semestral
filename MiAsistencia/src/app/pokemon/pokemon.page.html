@@ -1,0 +1,26 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title style="color: black; text-align: center;">¿Qué Pokemón eres?</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-row class="ion-justify-content-center" style="margin-top: 20px;">
+    <ion-button (click)="getPosts()">Generar Pokemón</ion-button>
+  </ion-row>
+  
+  <div class="posts" *ngIf="characterData">
+    <h2 style="color:black; text-align: center;">#{{ characterData.id }} {{ characterData.name | titlecase }}</h2>
+    <ion-row class="ion-justify-content-center">
+      <img src="{{ characterData.sprites.other['official-artwork'].front_default }}" alt="">
+    </ion-row>
+    <h2 style="color:black; text-align: center;">Type: {{ characterData.types['0'].type['name'] | titlecase}} </h2>
+    <!-- Muestra otros datos del personaje aquí -->
+  </div>
+
+  <ion-row class="ion-justify-content-center" style="margin-top: 20px;">
+    <ion-button href="/login" >Volver</ion-button>
+  </ion-row>
+
+
+</ion-content>
