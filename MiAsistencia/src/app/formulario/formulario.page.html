@@ -5,28 +5,30 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  
   <br>
   <img src="../../assets/logo-duoc.png" style="width: 66%; margin-left: 60px;" alt="">
-  <ion-list style="color: black;" class="lista">
-    <br>
+  <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
 
-    <ion-item>
-      <ion-select label="Asignatura" type="texto" style="color: black;" placeholder="Seleccionar">
+    <ion-item >
+      <ion-select formControlName="asignatura" label="Asignatura" style="color: black;" placeholder="Seleccionar">
         <ion-select-option value="Arquitectura">Arquitectura</ion-select-option>
         <ion-select-option value="Calidad de Software">Calidad de Software</ion-select-option>
         <ion-select-option value="Inglés">Inglés</ion-select-option>
         <ion-select-option value="Portafolio Final">Portafolio Final</ion-select-option>
         <ion-select-option value="Programación Aplicaciones Móviles">Programación Aplicaciones Móviles</ion-select-option>
-      </ion-select>
+      </ion-select> 
+    </ion-item>
 
-    </ion-item>
-    <br>
+    <ion-datetime formControlName="fecha" style="background-color:black; border-radius: 15px; margin-left: 30px; margin-top: 10px;" ></ion-datetime>
+  
+  
     <ion-item>
-      <ion-label type="texto" style="color: black;">Seleccionear fecha</ion-label>
+      <ion-label>Sección</ion-label>
+      <ion-input formControlName="seccion" type="text"></ion-input>
     </ion-item>
-    <br>
-      <ion-datetime class="calendario" style="width: 5px;" style="background-color:antiquewhite; border-radius: 15px; margin-left: 30px;" ></ion-datetime>
-  </ion-list>
-  <ion-button class="boton" expand="block" style="margin: 5%;">Registrar</ion-button>
+  
+    <ion-button expand="full" type="submit">Enviar</ion-button>
+  </form>
   
 </ion-content>

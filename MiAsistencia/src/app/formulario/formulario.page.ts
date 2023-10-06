@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ToastController } from '@ionic/angular';
 import { Animation, AnimationController } from '@ionic/angular';
+import { RegistroAsistenciaService } from '../servicios/registro-asistencia.service';
 
 @Component({
   selector: 'app-formulario',
@@ -9,9 +11,20 @@ import { Animation, AnimationController } from '@ionic/angular';
 })
 export class FormularioPage implements OnInit {
 
- 
+  formulario: FormGroup;
 
-  constructor(private toastController: ToastController, private animationCtrl: AnimationController ) { }
+  constructor(
+    private toastController: ToastController, 
+    private animationCtrl: AnimationController, 
+    private RegistroAsistenciaService: RegistroAsistenciaService 
+    ) { 
+    this.formulario = new FormGroup({
+      correo: new FormControl(''),
+      fecha: new FormControl(''),
+      asignatura: new FormControl(''),
+      seccion: new FormControl('')
+    })
+  }
   async animarContenido(){
     const animation: Animation = this.animationCtrl.create()
       .addElement(document.querySelectorAll('.lista'))
@@ -41,6 +54,12 @@ export class FormularioPage implements OnInit {
   ngOnInit() {
     this.animarContenido();
     this.animarTitulo();
+  }
+
+  async onSubmit(){
+    console.log(this.formulario.value);
+    const response = await this.RegistroAsistenciaService.AddAsistencia(this.formulario.value);
+    console.log(response)
   }
 
 }
