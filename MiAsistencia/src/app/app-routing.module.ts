@@ -30,7 +30,11 @@ const routes: Routes = [
   {
     path: 'pokemon',
     loadChildren: () => import('./pokemon/pokemon.module').then( m => m.PokemonPageModule)
+  },  {
+    path: 'formulario',
+    loadChildren: () => import('./formulario/formulario.module').then( m => m.FormularioPageModule)
   },
+
 
 ];
 

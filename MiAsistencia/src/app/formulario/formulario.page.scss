@@ -1,0 +1,15 @@
+ion-toolbar{
+    --ion-toolbar-background: var(--morado-duoc);
+}
+
+ion-content {
+    --background: url(../../assets/fond.png) no-repeat center center fixed;
+    background-size: cover;
+  }
+
+  
+  .centrar-ion-datetime {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
