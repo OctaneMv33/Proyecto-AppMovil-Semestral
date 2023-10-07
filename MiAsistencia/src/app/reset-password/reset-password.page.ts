@@ -1,11 +1,17 @@
 import { Component } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { Animation, AnimationController } from '@ionic/angular';
+import { UsuariosService } from '../servicios/usuarios.service';
+
+
+
+
 
 @Component({
   selector: 'app-reset-password',
   templateUrl: './reset-password.page.html',
   styleUrls: ['./reset-password.page.scss'],
+  providers:[UsuariosService],
 })
 export class ResetPasswordPage  {
 
@@ -13,7 +19,7 @@ export class ResetPasswordPage  {
   contrasena: string = '';
   repetircontrasena: string = ''; 
 
-  constructor(private toastController: ToastController, private animationCtrl: AnimationController ) {}
+  constructor(private toastController: ToastController, private animationCtrl: AnimationController, private user:UsuariosService) {}
   
     async mostrarMensajeContrasenaCambiada() {
       const toast = await this.toastController.create({
@@ -23,6 +29,7 @@ export class ResetPasswordPage  {
       });
       
       await toast.present();
+      
     }
 
     async animarLimpiar() {
@@ -82,6 +89,24 @@ export class ResetPasswordPage  {
       this.animarTitulo();
     }
   
+
+    
+
+
+/**
+      async cambio(password:string){
+        try{
+          await this.user.login(password);
+          
+        }
+        catch
+        (error){console.log(error)}
+        }
+    
+
+*/
+
+
   
   }
 

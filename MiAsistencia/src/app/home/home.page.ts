@@ -70,4 +70,29 @@ export class HomePage implements OnInit {
       this.usuario = this.dato?.substring(0,posicion);
     }
   }
+
+/* 
+  metodo activar carama 
+  async escanear() {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 100, // Calidad de la imagen (0-100)
+        allowEditing: false, // Permite editar la imagen después de capturarla
+        resultType: CameraResultType.Base64, // Tipo de resultado (Base64)
+      });
+
+      // Aquí puedes manejar la imagen capturada, por ejemplo, mostrarla en tu aplicación
+      const base64Image = 'data:image/jpeg;base64,' + image.base64String;
+      console.log(base64Image);
+    } catch (error) {
+      console.error("Error al capturar la imagen", error);
+    }
+  }
+  imports de capacitor 
+  import { Plugins, CameraResultType } from '@capacitor/core'; // Importa el complemento Camera de Capacitor
+
+  const { Camera } = Plugins;
+  no funciona... hay que instalar comando de camara de capacitor para usarlo , pero hay un problema
+  con capacitor.conf.ts
+*/
 }
