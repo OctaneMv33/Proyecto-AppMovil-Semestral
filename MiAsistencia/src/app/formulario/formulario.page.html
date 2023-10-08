@@ -10,25 +10,22 @@
   <img src="../../assets/logo-duoc.png" style="width: 66%; margin-left: 60px;" alt="">
   <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
 
-    <ion-item >
-      <ion-select formControlName="asignatura" label="Asignatura" style="color: black;" placeholder="Seleccionar">
-        <ion-select-option value="Arquitectura">Arquitectura</ion-select-option>
-        <ion-select-option value="Calidad de Software">Calidad de Software</ion-select-option>
-        <ion-select-option value="Inglés">Inglés</ion-select-option>
-        <ion-select-option value="Portafolio Final">Portafolio Final</ion-select-option>
-        <ion-select-option value="Programación Aplicaciones Móviles">Programación Aplicaciones Móviles</ion-select-option>
-      </ion-select> 
+    <ion-item style="margin-top: 20px;" class="texto">
+      <ion-select formControlName="asignatura" label="Asignatura" placeholder="Seleccionar" (ionChange)="onChangeAsignatura()">
+        <ion-select-option  *ngFor="let asignatura of asignaturaOpciones" [value]="asignatura">{{ asignatura }}</ion-select-option>
+      </ion-select>
     </ion-item>
 
-    <ion-datetime formControlName="fecha" style="background-color:black; border-radius: 15px; margin-left: 30px; margin-top: 10px;" ></ion-datetime>
-  
-  
-    <ion-item>
-      <ion-label>Sección</ion-label>
-      <ion-input formControlName="seccion" type="text"></ion-input>
+    <ion-item style="margin-top: 20px;" class="texto">
+      <ion-select formControlName="seccion" label="Sección" placeholder="Seleccionar" (ionChange)="onChangeAsignatura()">
+        <ion-select-option *ngFor="let seccion of seccionOpciones[formulario.get('asignatura')?.value || '']" [value]="seccion">{{ seccion }}</ion-select-option>
+      </ion-select>
     </ion-item>
   
-    <ion-button expand="full" type="submit">Enviar</ion-button>
+  
+    <ion-button style="margin-top: 40px;" expand="full" type="submit">Enviar</ion-button>
+    
   </form>
+  <ion-button href="/home" style="margin-top: 10px;" expand="full" type="submit">Volver</ion-button>
   
 </ion-content>

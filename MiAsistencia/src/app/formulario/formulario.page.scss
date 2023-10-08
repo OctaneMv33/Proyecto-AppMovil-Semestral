@@ -7,9 +7,12 @@ ion-content {
     background-size: cover;
   }
 
-  
-  .centrar-ion-datetime {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .mi-ion-select ion-select-option {
+    background-color: black !important; /* Cambia el color de fondo a negro */
+    color: white !important; /* Cambia el color de texto a blanco */
   }
+  
+  
+  
+  
+  
