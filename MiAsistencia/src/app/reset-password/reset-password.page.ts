@@ -19,7 +19,7 @@ export class ResetPasswordPage  {
   contrasena: string = '';
   repetircontrasena: string = ''; 
 
-  constructor(private toastController: ToastController, private animationCtrl: AnimationController, private user:UsuariosService) {}
+  constructor(private toastController: ToastController, private animationCtrl: AnimationController, private usuariosService :UsuariosService) {}
   
     async mostrarMensajeContrasenaCambiada() {
       const toast = await this.toastController.create({
@@ -91,22 +91,42 @@ export class ResetPasswordPage  {
   
 
     
-
-
-/**
-      async cambio(password:string){
-        try{
-          await this.user.login(password);
-          
-        }
-        catch
-        (error){console.log(error)}
-        }
+/*
+    async resetpassword() {
+      // Validar que las contraseñas coincidan
+      if (this.contrasena !== this.repetircontrasena) {
+        const toast = await this.toastController.create({
+          message: 'Las contraseñas no coinciden',
+          duration: 2000,
+          position: 'bottom',
+        });
+        await toast.present();
+        return;
+      }
     
-
-*/
+      try {
+        // Llamar al método para cambiar la contraseña en UsuariosService
+        await this.usuariosService.cambiarContraseña(this.contrasena);
+    
+        // Mostrar mensaje de éxito
+        const toast = await this.toastController.create({
+          message: 'Contraseña cambiada exitosamente',
+          duration: 2000,
+          position: 'bottom',
+        });
+        await toast.present();
+      } catch (error) {
+        //  errores si la actualización de la contraseña falla
+        const toast = await this.toastController.create({
+          message: 'Error al cambiar la contraseña',
+          duration: 2000,
+          position: 'bottom',
+        });
+        await toast.present();
+      }
 
 
   
   }
-
+  */
+}
