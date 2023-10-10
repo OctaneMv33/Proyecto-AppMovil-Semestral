@@ -13,6 +13,7 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthGuard } from '../app/servicios/usuario/auth.guard';
 
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
