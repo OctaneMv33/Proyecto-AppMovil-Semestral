@@ -12,7 +12,7 @@
 
     <ion-item style="margin-top: 20px;" class="texto">
       <ion-select formControlName="asignatura" label="Asignatura" placeholder="Seleccionar" (ionChange)="onChangeAsignatura()">
-        <ion-select-option  *ngFor="let asignatura of asignaturaOpciones" [value]="asignatura">{{ asignatura }}</ion-select-option>
+        <ion-select-option *ngFor="let asignatura of asignaturaOpciones" [value]="asignatura">{{ asignatura }}</ion-select-option>
       </ion-select>
     </ion-item>
 
