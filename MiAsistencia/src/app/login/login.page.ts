@@ -86,10 +86,9 @@ export class LoginPage implements OnInit {
     if (this.formLogin && emailControl){
       this.usuarioServicio.login(this.formLogin.value)
       .then(response =>{
-      console.log(response);
       const navigationExtras: NavigationExtras = {
         state: {
-          email: emailControl.value //Me dice que el objeto posiblemente es nulo
+          email: emailControl.value 
         }
       };
       this.router.navigate(['/home'], navigationExtras);

@@ -50,7 +50,6 @@ export class HomePage implements OnInit {
   salir(){
     this.usuarioServicio.logout()
       .then(response =>{
-        console.log(response);
         this.router.navigate(['/login']);
       })
       .catch(error => console.log(error));
