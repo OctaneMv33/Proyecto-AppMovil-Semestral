@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Auth, signInWithEmailAndPassword, signOut ,sendPasswordResetEmail} from '@angular/fire/auth';
+import { Auth, signInWithEmailAndPassword, signOut ,sendPasswordResetEmail } from '@angular/fire/auth';
 import { ToastController } from '@ionic/angular';
 
 @Injectable({
@@ -18,25 +18,17 @@ export class UsuariosService {
   }
 
 
-/**
-  async cambio(email: string) {
-    try {
-      await sendPasswordResetEmail(this.auth, email);
-      const toast = await this.toastController.create({
-        message: 'Se ha enviado un correo electrónico para restablecer la contraseña.',
-        duration: 5000,
-        position: 'bottom'
-      });
-      await toast.present();
-    } catch (error) {
-      const toast = await this.toastController.create({
-        message: 'No se pudo enviar el correo electrónico para restablecer la contraseña.',
-        duration: 5000,
-        position: 'bottom'
-      });
-      await toast.present();
-    }
-  }
-*/
 
+  async resetpassword(email:string):Promise<void>{
+    try{
+      await sendPasswordResetEmail(this.auth, email);
+    }
+    catch(error){console.log(error)}
+  }
+ 
 }
+
+ 
+  
+
+
