@@ -6,7 +6,8 @@ import { ToastController } from '@ionic/angular';
   providedIn: 'root'
 })
 export class UsuariosService {
-
+  
+  listaCorreos: string[] = ['ma.palacioso@duocuc.cl', 'al.zunigam@duocuc.cl ', 'er.galvez@duocuc.cl']
   constructor(private auth: Auth,private toastController: ToastController) { }
 
   login({email, password}: any){
@@ -19,16 +20,34 @@ export class UsuariosService {
 
 
 
-  async resetpassword(email:string):Promise<void>{
-    try{
-      await sendPasswordResetEmail(this.auth, email);
-    }
-    catch(error){console.log(error)}
-  }
  
-}
 
- 
-  
+  async resetpassword(email: string): Promise<void> {
+    if (this.listaCorreos.includes(email)) {
+      try {
+        await sendPasswordResetEmail(this.auth, email);
+        // Envía el correo de restablecimiento solo si el correo existe en la lista
+        this.presentToast('Email enviado, revisa tu Email');
+      } catch (error) {
+        console.error(error);
+        // Maneja errores si la actualización de la contraseña falla
+        // Puedes mostrar un mensaje de error al usuario si es necesario
+        this.presentToast('Ocurrió un error al enviar el correo de restablecimiento');
+      }
+    } else {
+      // El correo no existe en la lista, muestra un mensaje de error
+      this.presentToast('El correo ingresado no existe en la lista.');
+    }
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 3000, // Duración del mensaje
+      position: 'top' // Puedes ajustar la posición según tus preferencias
+    });
+    toast.present();
+  }
+}
 
 
