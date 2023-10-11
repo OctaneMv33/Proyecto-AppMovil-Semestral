@@ -96,7 +96,7 @@ export class ResetPasswordPage  {
   
         // Llama al servicio para enviar el correo de restablecimiento
         await this.usuariosService.resetpassword(this.email);
-        window.alert('Email sent, check your Email');
+        window.alert('Email enviado, revisa tu Email');
       } catch (error) {
         console.error(error);
         // Maneja errores si la actualización de la contraseña falla
