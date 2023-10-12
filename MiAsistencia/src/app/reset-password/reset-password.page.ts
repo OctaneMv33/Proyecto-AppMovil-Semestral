@@ -3,7 +3,6 @@ import { ToastController } from '@ionic/angular';
 import { Animation, AnimationController } from '@ionic/angular';
 import { UsuariosService } from '../servicios/usuarios.service';
 
-
 @Component({
   selector: 'app-reset-password',
   templateUrl: './reset-password.page.html',
