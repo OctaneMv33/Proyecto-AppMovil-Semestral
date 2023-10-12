@@ -37,6 +37,12 @@ const routes: Routes = [
     loadChildren: () => import('./formulario/formulario.module').then( m => m.FormularioPageModule),
     canActivate: [AngularFireAuthGuard]
   },
+  {
+    path: 'ver-asistencia',
+    loadChildren: () => import('./ver-asistencia/ver-asistencia.module').then( m => m.VerAsistenciaPageModule),
+    canActivate: [AngularFireAuthGuard]
+  },
+
 
 
 ];
