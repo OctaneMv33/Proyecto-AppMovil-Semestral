@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ToastController } from '@ionic/angular';
 import { Animation, AnimationController } from '@ionic/angular';
 import { RegistroAsistenciaService } from '../servicios/registro-asistencia.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -28,15 +28,14 @@ export class FormularioPage implements OnInit {
     'Calidad de Software': ['CSY4111-001D', 'CSY4111-002D', 'CSY4111-003D', 'CSY4111-001V'],
     'Inglés Intermedio': ['INI5111-001D', 'INI5111-002D', 'INI5111-003D', 'INI5111-001V'],
     'Portafolio Final': ['PY41447-001D', 'PY41447-002D', 'PY41447-003D', 'PY41447-001V'],
-    'Programación Aplicaciones Móviles': ['PGY4121-001D', 'PGY4121-002D', 'PGY4121-003D', 'PGY4121-001V'],
-    // Define las opciones para las demás asignaturas aquí
+    'Programación Aplicaciones Móviles': ['PGY4121-001D', 'PGY4121-002D', 'PGY4121-003D', 'PGY4121-001V']
   };
 
   constructor(
-    private toastController: ToastController,
     private animationCtrl: AnimationController,
     private RegistroAsistenciaService: RegistroAsistenciaService,
-    private afAuth: AngularFireAuth
+    private afAuth: AngularFireAuth,
+    private router: Router
   ) {
     this.formulario = new FormGroup({
       correo: new FormControl(''),
@@ -69,6 +68,10 @@ export class FormularioPage implements OnInit {
         { offset: 0.52, opacity: 0.2, transform: 'translateX(-100%)' }
       ]);
     await animation.play()
+  }
+
+  home(){
+    this.router.navigate(['/home']);
   }
 
 

@@ -7,9 +7,8 @@ ion-content {
     background-size: cover;
   }
 
-  .mi-ion-select ion-select-option {
-    background-color: black !important; /* Cambia el color de fondo a negro */
-    color: white !important; /* Cambia el color de texto a blanco */
+  ion-select-option {
+    --ion-color-step-850: black;
   }
   
   
