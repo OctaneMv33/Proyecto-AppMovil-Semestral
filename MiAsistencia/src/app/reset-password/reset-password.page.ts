@@ -4,9 +4,6 @@ import { Animation, AnimationController } from '@ionic/angular';
 import { UsuariosService } from '../servicios/usuarios.service';
 
 
-
-
-
 @Component({
   selector: 'app-reset-password',
   templateUrl: './reset-password.page.html',
@@ -90,43 +87,20 @@ export class ResetPasswordPage  {
     }
   
 
-    
-/*
     async resetpassword() {
-      // Validar que las contraseñas coincidan
-      if (this.contrasena !== this.repetircontrasena) {
-        const toast = await this.toastController.create({
-          message: 'Las contraseñas no coinciden',
-          duration: 2000,
-          position: 'bottom',
-        });
-        await toast.present();
-        return;
-      }
-    
       try {
-        // Llamar al método para cambiar la contraseña en UsuariosService
-        await this.usuariosService.cambiarContraseña(this.contrasena);
+        if (!this.email) {
+          // Realiza una validación y muestra un mensaje de error si el correo electrónico está vacío
+          return;
+        }
     
-        // Mostrar mensaje de éxito
-        const toast = await this.toastController.create({
-          message: 'Contraseña cambiada exitosamente',
-          duration: 2000,
-          position: 'bottom',
-        });
-        await toast.present();
+        // Llama al servicio para verificar y enviar el correo de restablecimiento
+        await this.usuariosService.resetpassword(this.email);
       } catch (error) {
-        //  errores si la actualización de la contraseña falla
-        const toast = await this.toastController.create({
-          message: 'Error al cambiar la contraseña',
-          duration: 2000,
-          position: 'bottom',
-        });
-        await toast.present();
+        console.error(error);
+        // Maneja errores si la actualización de la contraseña falla
+        // Puedes mostrar un mensaje de error al usuario si es necesario
       }
-
-
+    }
   
   }
-  */
-}
