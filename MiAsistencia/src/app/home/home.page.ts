@@ -47,6 +47,14 @@ export class HomePage implements OnInit {
     this.router.navigate(['/qr-scan']);
   }
 
+  registrarAsistencia(){
+    this.router.navigate(['/formulario']);
+  }
+
+  pokemon(){
+    this.router.navigate(['/pokemon']);
+  }
+
   salir(){
     this.usuarioServicio.logout()
       .then(response =>{

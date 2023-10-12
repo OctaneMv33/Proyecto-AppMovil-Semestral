@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <div class="banner">
     <ion-toolbar>
-      <ion-title class="ion-text-center titulo">
+      <ion-title class="ion-text-center titulo" style="color: whitesmoke;">
         MiAsistencia
       </ion-title>
     </ion-toolbar>
@@ -21,17 +21,45 @@
     <ion-title class="ion-text-center texto">
       <h1>Bienvenido!</h1> 
         <h3><b>{{usuario}}</b></h3><!--Aquí toca esperar a que los pibes hagan el formulario, para poner la variable en reemplazo del texto--> 
-        <a href="/formulario" style="display: block; width: 100%;">Formulario</a>
     </ion-title>
-    <br><br>
   </div>
   <div class="contenido">
     <!--El botón activa la cámara y la función QR ('05/09/2023': Agregué la funcionalidad de routerLink, ya que el profe dijo que teníamos que redirigir
       del Home a una pestaña que simule el escaneo de QR)-->
-    <ion-button id="asistenciaId" (click)="escanearQR()" class="botones" color="amarillo-duoc" expand="block">
-      <ion-icon name="enter-outline" class="margen-der"></ion-icon>
-      <b>Registrar Asistencia</b>
-    </ion-button>
+   
+    <ion-list>
+
+      <ion-item>
+        <ion-button (click)="escanearQR()" class="botones largo" color="amarillo-duoc" style="margin-top: 15px;">
+          <ion-icon name="enter-outline" class="margen-der"></ion-icon>
+          <b>Registrar Asistencia QR</b>
+        </ion-button>
+      </ion-item>
+
+      <ion-item>
+        <ion-button (click)="registrarAsistencia()" class="botones largo" color="amarillo-duoc" style="margin-top: 15px;" >
+          <ion-icon name="enter-outline" class="margen-der"></ion-icon>
+          <b>Formulario Asistencia</b>
+        </ion-button>
+      </ion-item>
+
+      <ion-item>
+        <ion-button (click)="registrarAsistencia()" class="botones largo" color="amarillo-duoc" style="margin-top: 15px;">
+          <ion-icon name="enter-outline" class="margen-der"></ion-icon>
+          <b>Ver Asistencias</b>
+        </ion-button>
+      </ion-item>
+
+      <ion-item>
+        <ion-button (click)="pokemon()" class="botones largo" color="amarillo-duoc" style="margin-top: 15px;">
+          <ion-icon name="enter-outline" class="margen-der"></ion-icon>
+          <b>Pokemón Sorpresa</b>
+        </ion-button>
+      </ion-item>
+    
+    
+    </ion-list>
+
   </div>
 
   <div class="imagen">

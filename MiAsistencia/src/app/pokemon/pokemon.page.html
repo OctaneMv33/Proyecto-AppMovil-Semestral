@@ -1,12 +1,12 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title style="color: black; text-align: center;">¿Qué Pokemón eres?</ion-title>
+    <ion-title style="color: black; text-align: center;" class="titulo">¡Pokemón Sorpresa!</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-row class="ion-justify-content-center" style="margin-top: 20px;">
-    <ion-button (click)="getPosts()">Generar Pokemón</ion-button>
+    <ion-button (click)="getPosts()">Generar Otro Pokemón</ion-button>
   </ion-row>
   
   <div class="posts" *ngIf="characterData">
@@ -19,7 +19,7 @@
   </div>
 
   <ion-row class="ion-justify-content-center" style="margin-top: 20px;">
-    <ion-button href="/login" >Volver</ion-button>
+    <ion-button (click)="home()" >Volver</ion-button>
   </ion-row>
 
 

@@ -31,14 +31,15 @@
   width: 200px;
 }
 
-#asistenciaId{
-  height: 50px;
-}
-
 ion-toolbar{
   --ion-toolbar-background: var(--morado-duoc);
 }
 
 .imagen{
   margin-top: 30px;
+}
+
+.largo{
+  height: 100%;
+  width: 260px;
 }
