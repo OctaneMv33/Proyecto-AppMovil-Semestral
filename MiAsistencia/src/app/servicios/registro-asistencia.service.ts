@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Firestore, collection , addDoc} from '@angular/fire/firestore';
 import { Asistencia } from '../app.model';
 
+
 @Injectable({
   providedIn: 'root'
 })

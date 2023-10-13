@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { VerAsistenciaService } from '../servicios/ver-asistencia.service';
 
 @Component({
   selector: 'app-ver-asistencia',
@@ -7,9 +8,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VerAsistenciaPage implements OnInit {
 
-  constructor() { }
+  datosAsistencia: any[] = [];
 
-  ngOnInit() {
+  constructor(
+    private verAsistenciaService: VerAsistenciaService) 
+    { 
+
+    }
+
+    obtenerDatos() {
+      this.verAsistenciaService.obtenerAsistencia().subscribe(data => {
+        this.datosAsistencia = data; 
+        console.log(data)// Almacena los datos en la propiedad datosAsistencia
+      });
+    }
+
+  ngOnInit(){
+    this.obtenerDatos();
   }
-
 }

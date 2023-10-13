@@ -51,6 +51,10 @@ export class HomePage implements OnInit {
     this.router.navigate(['/formulario']);
   }
 
+  verAsistencia(){
+    this.router.navigate(['/ver-asistencia']);
+  }
+
   pokemon(){
     this.router.navigate(['/pokemon']);
   }
