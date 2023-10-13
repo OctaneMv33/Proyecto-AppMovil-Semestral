@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { VerAsistenciaService } from '../servicios/ver-asistencia.service';
+import { Asistencia } from '../app.model';
 
 @Component({
   selector: 'app-ver-asistencia',
@@ -8,7 +9,7 @@ import { VerAsistenciaService } from '../servicios/ver-asistencia.service';
 })
 export class VerAsistenciaPage implements OnInit {
 
-  datosAsistencia: any[] = [];
+  datosAsistencia: Asistencia[] = [];
 
   constructor(
     private verAsistenciaService: VerAsistenciaService) 
@@ -17,13 +18,19 @@ export class VerAsistenciaPage implements OnInit {
     }
 
     obtenerDatos() {
-      this.verAsistenciaService.obtenerAsistencia().subscribe(data => {
-        this.datosAsistencia = data; 
-        console.log(data)// Almacena los datos en la propiedad datosAsistencia
+      this.verAsistenciaService.obtenerAsistencia().subscribe(datos => {
+        this.datosAsistencia = datos.map( e => {
+          return{
+            asignatura: e.payload.doc.id,
+            ... e.payload.doc.data() as {}
+
+          } as Asistencia;
+        })          
+        console.log(datos)// Almacena los datos en la propiedad datosAsistencia
       });
     }
 
   ngOnInit(){
-    this.obtenerDatos();
+    //this.obtenerDatos();
   }
 }
