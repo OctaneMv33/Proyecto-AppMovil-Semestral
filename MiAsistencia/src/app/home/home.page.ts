@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Animation, AnimationController } from '@ionic/angular';
 import { UsuariosService } from '../servicios/usuarios.service';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx'
+/** Probando imports */
+
 
 @Component({
   selector: 'app-home',
@@ -9,9 +12,9 @@ import { UsuariosService } from '../servicios/usuarios.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
-  dato: string | null = null ;
+  dato: string | null = null;
   usuario: string | null = null;
-  constructor(private activatedRoute: ActivatedRoute, private animationCtrl: AnimationController, private router: Router, private usuarioServicio: UsuariosService) { }
+  constructor(private activatedRoute: ActivatedRoute, private animationCtrl: AnimationController, private router: Router, private usuarioServicio: UsuariosService, private camera: Camera) { }
 
   //Este método anima el título que está en el header de la página
   async animarTitulo() {
@@ -29,7 +32,7 @@ export class HomePage implements OnInit {
   }
 
   //Este método anima los botones y texto de la página
-  async animarContenido(){
+  async animarContenido() {
     const animation: Animation = this.animationCtrl.create()
       .addElement(document.querySelectorAll('.contenido'))
       .addElement(document.querySelectorAll('.logout'))
@@ -39,29 +42,29 @@ export class HomePage implements OnInit {
         { offset: 0, opacity: 0.2, transform: 'translateX(-100%)' },
         { offset: 0.5, opacity: 1, transform: 'translateX(0%)' },
       ]);
-      await animation.play()
+    await animation.play()
   }
 
   //Este método deberá activar la cámara cuando toque aplicar el plugin, por ahora enviará el username al qr-scan page, para luego devolverse en caso de ser necesario.
-  escanearQR(){
+  escanearQR() {
     this.router.navigate(['/qr-scan']);
   }
 
-  registrarAsistencia(){
+  registrarAsistencia() {
     this.router.navigate(['/formulario']);
   }
 
-  verAsistencia(){
+  verAsistencia() {
     this.router.navigate(['/ver-asistencia']);
   }
 
-  pokemon(){
+  pokemon() {
     this.router.navigate(['/pokemon']);
   }
 
-  salir(){
+  salir() {
     this.usuarioServicio.logout()
-      .then(response =>{
+      .then(response => {
         this.router.navigate(['/login']);
       })
       .catch(error => console.log(error));
@@ -73,37 +76,54 @@ export class HomePage implements OnInit {
     this.animarContenido()
     //Trayendo el correo que actuará como username, y reemplazamos el método que teníamos antes
     const navigation = this.router.getCurrentNavigation();
-    if (navigation && navigation.extras.state){
+    if (navigation && navigation.extras.state) {
       this.dato = navigation.extras.state['email'];
     }
-    if(this.dato){
+    if (this.dato) {
       const posicion = this.dato?.indexOf('@');
-      this.usuario = this.dato?.substring(0,posicion);
+      this.usuario = this.dato?.substring(0, posicion);
     }
   }
 
-/* 
-  metodo activar carama 
-  async escanear() {
-    try {
-      const image = await Camera.getPhoto({
-        quality: 100, // Calidad de la imagen (0-100)
-        allowEditing: false, // Permite editar la imagen después de capturarla
-        resultType: CameraResultType.Base64, // Tipo de resultado (Base64)
-      });
-
-      // Aquí puedes manejar la imagen capturada, por ejemplo, mostrarla en tu aplicación
-      const base64Image = 'data:image/jpeg;base64,' + image.base64String;
-      console.log(base64Image);
-    } catch (error) {
-      console.error("Error al capturar la imagen", error);
+  /* 
+    metodo activar carama 
+    async escanear() {
+      try {
+        const image = await Camera.getPhoto({
+          quality: 100, // Calidad de la imagen (0-100)
+          allowEditing: false, // Permite editar la imagen después de capturarla
+          resultType: CameraResultType.Base64, // Tipo de resultado (Base64)
+        });
+  
+        // Aquí puedes manejar la imagen capturada, por ejemplo, mostrarla en tu aplicación
+        const base64Image = 'data:image/jpeg;base64,' + image.base64String;
+        console.log(base64Image);
+      } catch (error) {
+        console.error("Error al capturar la imagen", error);
+      }
     }
-  }
-  imports de capacitor 
-  import { Plugins, CameraResultType } from '@capacitor/core'; // Importa el complemento Camera de Capacitor
+    imports de capacitor 
+    import { Plugins, CameraResultType } from '@capacitor/core'; // Importa el complemento Camera de Capacitor
+  
+    const { Camera } = Plugins;
+    no funciona... hay que instalar comando de camara de capacitor para usarlo , pero hay un problema
+    con capacitor.conf.ts
+  */
 
-  const { Camera } = Plugins;
-  no funciona... hay que instalar comando de camara de capacitor para usarlo , pero hay un problema
-  con capacitor.conf.ts
-*/
+  takePicture() {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+    };
+
+    this.camera.getPicture(options).then((imageData) => {
+      // Aquí puedes manejar la imagen capturada, por ejemplo, mostrarla en la página
+      const base64Image = 'data:image/jpeg;base64,' + imageData;
+      // Puedes asignar 'base64Image' a una variable y mostrarla en tu página.
+    }, (err) => {
+      console.log('Error al tomar la foto', err);
+    });
+  }
 }
