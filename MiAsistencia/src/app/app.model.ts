@@ -1,5 +1,3 @@
-import { Timestamp } from "firebase/firestore";
-
 export interface User{
     rut: number;
     dvrut: string;
@@ -9,7 +7,7 @@ export interface User{
 
 export interface Asistencia {
     correo: string;
-    fecha: Timestamp;
+    fecha: string;
     asignatura: string;
     seccion: string;
 }

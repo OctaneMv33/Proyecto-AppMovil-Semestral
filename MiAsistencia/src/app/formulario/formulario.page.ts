@@ -95,8 +95,6 @@ export class FormularioPage implements OnInit {
     const asignaturaControl = this.formulario.get('asignatura');
     if (asignaturaControl) {
       const asignaturaSeleccionada = asignaturaControl.value;
-
-
     }
   }
 
@@ -104,7 +102,11 @@ export class FormularioPage implements OnInit {
 
 
   async onSubmit() {
-    console.log(this.formulario.value);
+    const date = new Date();
+    const fechaFormateada = date.toLocaleDateString();
+    if(date){
+      this.formulario.patchValue({ fecha: fechaFormateada })
+    }
     const response = await this.RegistroAsistenciaService.AddAsistencia(this.formulario.value);
     console.log(response)
   }
