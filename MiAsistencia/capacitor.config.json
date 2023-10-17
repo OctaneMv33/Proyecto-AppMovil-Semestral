@@ -1,1 +1,7 @@
-{}
+"plugins": {
+    "Camera": {
+        "permissions": [
+            "camera"
+        ]
+    }
+}
