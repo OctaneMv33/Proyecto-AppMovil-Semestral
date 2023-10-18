@@ -21,7 +21,7 @@
       <ion-col class="ion-text-center" size="4"><b>Sección</b></ion-col>
       <ion-col class="ion-text-center" size="4"><b>Fecha</b></ion-col>
     </ion-row>
-    <ion-row class="data-row" *ngFor="let asistencia of datosAsistencia">
+    <ion-row class="data-row" *ngFor="let asistencia of datosAsistenciaFiltrados">
       <ion-col class="ion-text-center" size="4">{{ asistencia.asignatura }}</ion-col>
       <ion-col class="ion-text-center" size="4">{{ asistencia.seccion }}</ion-col>
       <ion-col class="ion-text-center" size="4">{{ asistencia.fecha }}</ion-col>

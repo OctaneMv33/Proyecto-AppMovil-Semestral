@@ -3,6 +3,7 @@ import { VerAsistenciaService } from '../servicios/ver-asistencia.service';
 import { Asistencia } from '../app.model';
 import { Router } from '@angular/router';
 import { Animation, AnimationController }  from '@ionic/angular';
+import { Auth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-ver-asistencia',
@@ -12,13 +13,36 @@ import { Animation, AnimationController }  from '@ionic/angular';
 export class VerAsistenciaPage implements OnInit {
 
   datosAsistencia: Asistencia[] = [];
+  datosAsistenciaFiltrados: Asistencia[] = [];
 
   constructor(
     private verAsistenciaService: VerAsistenciaService,
     private router: Router,
-    private animationCtrl: AnimationController
+    private animationCtrl: AnimationController,
+    private auth: Auth
   ) {}
-
+  
+  obtenerDatos() {
+    this.verAsistenciaService.obtenerAsistencia().subscribe(datos => {
+      this.datosAsistencia = datos.map(e => {
+        return {
+          asignatura: e.payload.doc.id,
+          ...e.payload.doc.data() as {}
+        } as Asistencia;
+      });
+  
+      if (this.auth) {
+        const usuarioActual = this.auth.currentUser?.email;
+  
+        this.datosAsistenciaFiltrados = this.datosAsistencia.filter(asistencia => {
+          return usuarioActual === asistencia.correo;
+        });
+      } else {
+        this.datosAsistenciaFiltrados = [];
+      }
+    });
+  }
+  /*
   obtenerDatos() {
     this.verAsistenciaService.obtenerAsistencia().subscribe(datos => {
       this.datosAsistencia = datos.map( e => {
@@ -27,10 +51,19 @@ export class VerAsistenciaPage implements OnInit {
           ... e.payload.doc.data() as {}
 
         } as Asistencia;
-      })          
-      console.log(datos)// Almacena los datos en la propiedad datosAsistencia
+      })
+      if(this.auth){
+        const usuarioActual = this.auth.currentUser?.email
+
+        const datosFiltrados = this.datosAsistencia.filter(asistencia =>{
+          return usuarioActual === asistencia.correo
+        })
+        return datosFiltrados
+      } else {
+        return [];
+      }
     });
-  }
+  }*/
 
   async animarTitulo() {
     const animation: Animation = this.animationCtrl.create()
