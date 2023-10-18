@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { VerAsistenciaService } from '../servicios/ver-asistencia.service';
 import { Asistencia } from '../app.model';
 import { Router } from '@angular/router';
+import { Animation, AnimationController }  from '@ionic/angular';
 
 @Component({
   selector: 'app-ver-asistencia',
@@ -14,7 +15,8 @@ export class VerAsistenciaPage implements OnInit {
 
   constructor(
     private verAsistenciaService: VerAsistenciaService,
-    private router: Router
+    private router: Router,
+    private animationCtrl: AnimationController
   ) {}
 
   obtenerDatos() {
@@ -30,11 +32,26 @@ export class VerAsistenciaPage implements OnInit {
     });
   }
 
+  async animarTitulo() {
+    const animation: Animation = this.animationCtrl.create()
+      .addElement(document.querySelectorAll('#tituloVerAsistencia'))
+      .duration(2500)
+      .iterations(Infinity)
+      .keyframes([
+        { offset: 0, opacity: 1, transform: 'translateX(0%)' },
+        { offset: 0.5, opacity: 0.2, transform: 'translateX(100%)' },
+        { offset: 0.5001, opacity: 0, transform: 'translateX(-100%)' },
+        { offset: 0.52, opacity: 0.2, transform: 'translateX(-100%)' }
+      ]);
+    await animation.play()
+  }
+
   home(){
     this.router.navigate(['/home']);
   }
 
   ngOnInit(){
-    //this.obtenerDatos();
+    this.obtenerDatos();
+    this.animarTitulo();
   }
 }

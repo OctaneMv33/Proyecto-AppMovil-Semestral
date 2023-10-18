@@ -58,7 +58,7 @@ export class FormularioPage implements OnInit {
 
   async animarTitulo() {
     const animation: Animation = this.animationCtrl.create()
-      .addElement(document.querySelectorAll('.titulo'))
+      .addElement(document.querySelectorAll('#tituloFormAsistencia'))
       .duration(2500)
       .iterations(Infinity)
       .keyframes([

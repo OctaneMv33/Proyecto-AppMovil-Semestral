@@ -3,8 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Animation, AnimationController } from '@ionic/angular';
 import { UsuariosService } from '../servicios/usuarios.service';
 import { Camera, CameraResultType } from '@capacitor/camera';
-import { Plugins } from '@capacitor/core';
-import { CameraSource } from '@capacitor/camera/dist/esm/definitions';
+
 
 @Component({
   selector: 'app-home',
@@ -19,7 +18,7 @@ export class HomePage implements OnInit {
   //Este método anima el título que está en el header de la página
   async animarTitulo() {
     const animation: Animation = this.animationCtrl.create()
-      .addElement(document.querySelectorAll('.titulo'))
+      .addElement(document.querySelectorAll('#tituloHome'))
       .duration(2500)
       .iterations(Infinity)
       .keyframes([

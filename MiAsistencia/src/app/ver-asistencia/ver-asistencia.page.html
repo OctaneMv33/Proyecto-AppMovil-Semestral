@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <div class="banner">
     <ion-toolbar>
-      <ion-title class="ion-text-center titulo" style="color: whitesmoke;">Ver Asistencias</ion-title>
+      <ion-title class="ion-text-center" id="tituloVerAsistencia" style="color: whitesmoke;">Ver Asistencias</ion-title>
     </ion-toolbar>
   </div>
 </ion-header>
@@ -15,15 +15,16 @@
       <b>Obtener Datos</b>
     </ion-button>
   </div>
-
-  <ion-list>
-    <ion-item *ngFor="let asistencia of datosAsistencia">
-      <ion-row>
-        <ion-col>{{ asistencia.correo }}</ion-col>
-        <ion-col>{{ asistencia.fecha }}</ion-col>
-        <ion-col>{{ asistencia.asignatura }}</ion-col>
-        <ion-col>{{ asistencia.seccion }}</ion-col>
-      </ion-row>
-    </ion-item>
-  </ion-list>
+  <ion-grid>
+    <ion-row class="header-row">
+      <ion-col class="ion-text-center" size="4"><b>Asignatura</b></ion-col>
+      <ion-col class="ion-text-center" size="4"><b>Sección</b></ion-col>
+      <ion-col class="ion-text-center" size="4"><b>Fecha</b></ion-col>
+    </ion-row>
+    <ion-row class="data-row" *ngFor="let asistencia of datosAsistencia">
+      <ion-col class="ion-text-center" size="4">{{ asistencia.asignatura }}</ion-col>
+      <ion-col class="ion-text-center" size="4">{{ asistencia.seccion }}</ion-col>
+      <ion-col class="ion-text-center" size="4">{{ asistencia.fecha }}</ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
