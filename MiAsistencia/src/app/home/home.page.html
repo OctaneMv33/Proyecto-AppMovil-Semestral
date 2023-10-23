@@ -26,40 +26,32 @@
   <div class="contenido">
     <!--El botón activa la cámara y la función QR ('05/09/2023': Agregué la funcionalidad de routerLink, ya que el profe dijo que teníamos que redirigir
       del Home a una pestaña que simule el escaneo de QR)-->
-   
-    <ion-list>
-
-      <ion-item>
+    <ion-grid >
+      <ion-row class="ion-justify-content-center">
         <ion-button (click)="tomarFoto()" class="botones largo" color="amarillo-duoc" style="margin-top: 15px;">
           <ion-icon name="enter-outline" class="margen-der"></ion-icon>
           <b>Abrir Cámara</b>
         </ion-button>
-      </ion-item>
-
-      <ion-item>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
         <ion-button (click)="registrarAsistencia()" class="botones largo" color="amarillo-duoc" style="margin-top: 15px;" >
           <ion-icon name="enter-outline" class="margen-der"></ion-icon>
-          <b>Formulario de Asistencia</b>
+          <b>Formulario Asistencia</b>
         </ion-button>
-      </ion-item>
-
-      <ion-item>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
         <ion-button (click)="verAsistencia()" class="botones largo" color="amarillo-duoc" style="margin-top: 15px;">
           <ion-icon name="enter-outline" class="margen-der"></ion-icon>
           <b>Ver Asistencias</b>
         </ion-button>
-      </ion-item>
-
-      <ion-item>
+      </ion-row>
+      <ion-row class="ion-justify-content-center">
         <ion-button (click)="pokemon()" class="botones largo" color="amarillo-duoc" style="margin-top: 15px;">
           <ion-icon name="enter-outline" class="margen-der"></ion-icon>
           <b>Pokemón Sorpresa</b>
         </ion-button>
-      </ion-item>
-    
-    
-    </ion-list>
-
+      </ion-row>
+    </ion-grid>
   </div>
 
   <div class="imagen">
