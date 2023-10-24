@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection , addDoc} from '@angular/fire/firestore';
+import { Firestore, collection, addDoc } from '@angular/fire/firestore';
 import { Asistencia } from '../app.model';
 
 
@@ -10,9 +10,9 @@ export class RegistroAsistenciaService {
 
   constructor(private firestore: Firestore) { }
 
-   AddAsistencia(asistencia: Asistencia){
-    const asistenciaRef = collection(this.firestore,'asistencias');
+  AddAsistencia(asistencia: Asistencia) {
+    const asistenciaRef = collection(this.firestore, 'asistencias');
     return addDoc(asistenciaRef, asistencia)
-   }
+  }
 
 }

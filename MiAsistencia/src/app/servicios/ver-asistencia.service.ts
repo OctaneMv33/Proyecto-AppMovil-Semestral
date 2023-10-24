@@ -1,4 +1,4 @@
-import { Injectable  } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Injectable({
@@ -6,14 +6,14 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 })
 export class VerAsistenciaService {
 
-  constructor( private firestore : AngularFirestore) { 
-    
+  constructor(private firestore: AngularFirestore) {
+
   }
 
-  obtenerAsistencia(){
+  obtenerAsistencia() {
     return this.firestore
-    .collection('asistencias')
-    .snapshotChanges();
+      .collection('asistencias')
+      .snapshotChanges();
   }
 
 }
