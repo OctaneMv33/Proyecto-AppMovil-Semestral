@@ -35,31 +35,6 @@ export class ResetPasswordPage  {
       
     }
 
-    async animarLimpiar() {
-      const animation: Animation = this.animationCtrl.create()
-        .addElement(document.querySelectorAll('.shake'))
-        .duration(700)
-        .keyframes([
-          { offset: 0, transform: 'translateX(0)' },
-          { offset: 0.1, transform: 'translateX(-5px)' },
-          { offset: 0.2, transform: 'translateX(5px)' },
-          { offset: 0.3, transform: 'translateX(-5px)' },
-          { offset: 0.4, transform: 'translateX(5px)' },
-          { offset: 0.5, transform: 'translateX(-5px)' },
-          { offset: 0.6, transform: 'translateX(5px)' },
-          { offset: 0.7, transform: 'translateX(-5px)' },
-          { offset: 0.8, transform: 'translateX(5px)' },
-          { offset: 0.9, transform: 'translateX(-5px)' },
-          { offset: 1, transform: 'translateX(0)' }
-        ]);
-  
-      animation.play();
-  
-      this.email = '';
-      this.contrasena = '';
-      this.repetircontrasena = '';
-    }
-
     async animarContenido(){
       const animation: Animation = this.animationCtrl.create()
         .addElement(document.querySelectorAll('.tex'))
