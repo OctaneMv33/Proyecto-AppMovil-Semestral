@@ -54,4 +54,6 @@ export class QrScanPage implements OnInit {
     this.animarTitulo();
   }
 
+
+ 
 }

@@ -13,6 +13,7 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -25,9 +26,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+  
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy}],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

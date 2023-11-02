@@ -3,6 +3,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Animation, AnimationController } from '@ionic/angular';
 import { UsuariosService } from '../servicios/usuarios.service';
 import { Camera, CameraResultType } from '@capacitor/camera';
+import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
+import { ToastController } from '@ionic/angular';
+
+
+
+
+
 
 
 @Component({
@@ -13,7 +20,8 @@ import { Camera, CameraResultType } from '@capacitor/camera';
 export class HomePage implements OnInit {
   dato: string | null = null;
   usuario: string | null = null;
-  constructor(private activatedRoute: ActivatedRoute, private animationCtrl: AnimationController, private router: Router, private usuarioServicio: UsuariosService) { }
+  constructor(private activatedRoute: ActivatedRoute, private animationCtrl: AnimationController, private router: Router, 
+    private usuarioServicio: UsuariosService,private toastController: ToastController) { }
 
   //Este método anima el título que está en el header de la página
   async animarTitulo() {
@@ -124,4 +132,35 @@ export class HomePage implements OnInit {
     // Can be set to the src of an image now
 
   };
+ 
+  async scanBarcode() {
+    const result = await BarcodeScanner.startScan();
+    if (result.hasContent) {
+      console.log('Código escaneado:', result.content);
+  
+      // Verifica si el resultado coincide con el código esperado para la asistencia
+      if (result.content === 'codigo_esperado_para_asistencia') {
+        // Muestra un mensaje de asistencia registrada utilizando ToastController
+        const toast = await this.toastController.create({
+          message: 'Asistencia registrada',
+          duration: 2000, // Duración en milisegundos
+          position: 'top' // Posición del mensaje en la pantalla (puedes ajustarla)
+        });
+  
+        toast.present();
+      } else {
+        // Muestra un mensaje si el código no coincide con el esperado
+        const toast = await this.toastController.create({
+          message: 'Código no válido para asistencia',
+          duration: 2000, // Duración en milisegundos
+          position: 'top' // Posición del mensaje en la pantalla
+        });
+  
+        toast.present();
+      }
+    } else {
+      console.log('No se ha escaneado ningún código.');
+    }
+  }
+  
 }
