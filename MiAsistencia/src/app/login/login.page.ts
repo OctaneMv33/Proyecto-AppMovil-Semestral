@@ -5,6 +5,7 @@ import { Router, NavigationExtras } from '@angular/router';
 import { UsuariosService } from '../servicios/usuarios.service';
 import { FormControl, FormGroup } from '@angular/forms';
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -81,21 +82,26 @@ export class LoginPage implements OnInit {
   }
   
 
-  ingresar(){
+  ingresar() {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     const emailControl = this.formLogin.get('email');
-    if (this.formLogin && emailControl){
+    if (this.formLogin && emailControl && emailControl.value.match(emailRegex)) {
       this.usuarioServicio.login(this.formLogin.value)
-      .then(response =>{
-      const navigationExtras: NavigationExtras = {
-        state: {
-          email: emailControl.value 
-        }
-      };
-      this.router.navigate(['/home'], navigationExtras);
-    })
-    .catch(error => console.log(error));
+        .then(response => {
+          const navigationExtras: NavigationExtras = {
+            state: {
+              email: emailControl.value
+            }
+          };
+          this.router.navigate(['/home'], navigationExtras);
+          this.usuarioServicio.presentToast('Ingreso exitoso'); // Muestra un mensaje de éxito
+        })
+        .catch(error => console.log(error));
+    } else {
+      this.usuarioServicio.presentToast('Error: el formato del correo electrónico no es válido'); // Muestra un mensaje de error
     }
-  }
+}
+
 
   reset(){
     this.router.navigate(['/reset-password'])
@@ -105,4 +111,7 @@ export class LoginPage implements OnInit {
     this.animarTitulo();
     this.animarContenido();
   }
+
+
+  
 }

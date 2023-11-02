@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Auth, signInWithEmailAndPassword, signOut ,sendPasswordResetEmail } from '@angular/fire/auth';
 import { ToastController } from '@ionic/angular';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -40,6 +41,10 @@ export class UsuariosService {
     });
     toast.present();
   }
+
+  
+
+  
 }
 
 
