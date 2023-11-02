@@ -137,26 +137,12 @@ export class HomePage implements OnInit {
     const result = await BarcodeScanner.startScan();
     if (result.hasContent) {
       console.log('Código escaneado:', result.content);
-  
+
       // Verifica si el resultado coincide con el código esperado para la asistencia
       if (result.content === 'codigo_esperado_para_asistencia') {
-        // Muestra un mensaje de asistencia registrada utilizando ToastController
-        const toast = await this.toastController.create({
-          message: 'Asistencia registrada',
-          duration: 2000, // Duración en milisegundos
-          position: 'top' // Posición del mensaje en la pantalla (puedes ajustarla)
-        });
-  
-        toast.present();
+        console.log('Asistencia registrada');
       } else {
-        // Muestra un mensaje si el código no coincide con el esperado
-        const toast = await this.toastController.create({
-          message: 'Código no válido para asistencia',
-          duration: 2000, // Duración en milisegundos
-          position: 'top' // Posición del mensaje en la pantalla
-        });
-  
-        toast.present();
+        console.log('Código no válido para asistencia');
       }
     } else {
       console.log('No se ha escaneado ningún código.');
