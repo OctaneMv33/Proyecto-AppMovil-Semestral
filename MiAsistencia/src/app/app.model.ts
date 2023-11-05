@@ -12,14 +12,13 @@ export interface Asistencia {
     rut: string;
     fecha: string;
     asignatura: string;
-    seccion: string;
+    estado: string;
 }
 
 export interface Clase{
     fecha: string;
     horaIni: string;
     horaFin: string;
-    estado: number;
 }
 
 export interface Asignatura{
