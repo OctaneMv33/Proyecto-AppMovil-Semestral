@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Animation, AnimationController } from '@ionic/angular';
 import { RegistroAsistenciaService } from '../servicios/registro-asistencia.service';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Auth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 
 
@@ -34,7 +34,7 @@ export class FormularioPage implements OnInit {
   constructor(
     private animationCtrl: AnimationController,
     private RegistroAsistenciaService: RegistroAsistenciaService,
-    private afAuth: AngularFireAuth,
+    private auth: Auth,
     private router: Router
   ) {
     this.formulario = new FormGroup({
@@ -76,18 +76,17 @@ export class FormularioPage implements OnInit {
 
 
   ngOnInit() {
+    const fecha = new Date();
+    const fechaFormateada = fecha.toLocaleString()
+    console.log(fechaFormateada)
     this.animarContenido();
     this.animarTitulo();
-    this.afAuth.authState.subscribe(user => {
-      if (user) {
-        // El usuario está autenticado. Puedes obtener su correo electrónico.
-        const correoUsuario = user.email;
-        // Ahora puedes utilizar correoUsuario en tu formulario.
-        this.formulario.patchValue({ correo: correoUsuario });
-      } else {
-        // El usuario no está autenticado o ha cerrado sesión. Puedes manejar esto según tus necesidades.
-      }
-    });
+    if(this.auth){
+      const correoUsuario = this.auth.currentUser?.email;
+      this.formulario.patchValue({ correo: correoUsuario });
+    } else {
+      console.log("Error. El usuario no está autenticado o ha cerrado sesión.");
+    }
   }
 
 

@@ -22,6 +22,7 @@ export class VerAsistenciaPage implements OnInit {
     private auth: Auth
   ) { }
 
+  /*
   obtenerDatos() {
     this.verAsistenciaService.obtenerAsistencia().subscribe(datos => {
       this.datosAsistencia = datos.map(e => {
@@ -41,7 +42,7 @@ export class VerAsistenciaPage implements OnInit {
         this.datosAsistenciaFiltrados = [];
       }
     });
-  }
+  }*/
   /*
   obtenerDatos() {
     this.verAsistenciaService.obtenerAsistencia().subscribe(datos => {
@@ -84,7 +85,7 @@ export class VerAsistenciaPage implements OnInit {
   }
 
   ngOnInit() {
-    this.obtenerDatos();
+    // this.obtenerDatos();   <-- Después arreglaremos este método
     this.animarTitulo();
   }
 }
