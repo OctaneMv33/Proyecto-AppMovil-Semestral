@@ -41,7 +41,11 @@ const routes: Routes = [
     path: 'ver-asistencia',
     loadChildren: () => import('./ver-asistencia/ver-asistencia.module').then( m => m.VerAsistenciaPageModule),
     canActivate: [AngularFireAuthGuard]
+  },  {
+    path: 'registrouser',
+    loadChildren: () => import('./registrouser/registrouser.module').then( m => m.RegistrouserPageModule)
   },
+
 
 
 

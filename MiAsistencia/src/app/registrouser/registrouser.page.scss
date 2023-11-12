@@ -1,0 +1,21 @@
+.color-toolbar{
+    background-color: var(--morado-duoc);
+    color: whitesmoke;
+}
+
+.titulo{
+    --color:#f5f5f5;
+}
+
+.fondo{
+    background-color: var(--blanco-duoc);
+}
+
+ion-toolbar{
+    --ion-toolbar-background: var(--blanco-duoc);
+}
+
+#iconoAppId{
+    width: 150px;
+    height: 150px;
+}
