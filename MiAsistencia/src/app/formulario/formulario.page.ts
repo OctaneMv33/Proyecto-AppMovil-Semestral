@@ -40,7 +40,7 @@ export class FormularioPage implements OnInit {
     this.formulario = new FormGroup({
       correo: new FormControl(''),
       fecha: new FormControl(new Date()),
-      asignatura: new FormControl(''),
+      asignatura: new FormControl(''), 
       seccion: new FormControl('')
     })
   }

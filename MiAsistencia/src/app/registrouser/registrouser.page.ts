@@ -2,9 +2,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Animation, AnimationController } from '@ionic/angular';
 import { Router, NavigationExtras } from '@angular/router';
-import { UsuariosService } from '../servicios/usuarios.service';
+import { RegistrarUsuarioService } from '../servicios/registrar-usuario.service';
 import { FormControl, FormGroup } from '@angular/forms';
-import { AlertController} from '@ionic/angular';
+import { AlertController} from '@ionic/angular'; 
+import { Asignatura } from '../app.model';
 
 @Component({
   selector: 'app-registrouser',
@@ -12,20 +13,29 @@ import { AlertController} from '@ionic/angular';
   styleUrls: ['./registrouser.page.scss'],
 })
 export class RegistrouserPage implements OnInit {
+  rut: number = 0;
+  dvrut : string = "";
+  email: string = '';
+  contrasena: string = '';
+  pnombre: string = '';
+  appaterno: string = '';
 
   formRegistro: FormGroup;
 
-  constructor(private animationCtrl: AnimationController, private router: Router, private usuarioServicio: UsuariosService, private alertController: AlertController) {
+  constructor(
+    private animationCtrl: AnimationController, 
+    private router: Router, 
+    private registrarEstudiante: RegistrarUsuarioService, 
+    private alertController: AlertController) {
     this.formRegistro = new FormGroup({
       
       rut: new FormControl(''),
       dvrut: new FormControl(''),
       email: new FormControl(''),
-      password: new FormControl(''),
+      contrasena: new FormControl(''),
       pnombre: new FormControl(''),
-      appaterno: new FormControl('')
-      
-    })
+      appaterno: new FormControl(''),
+     })
   }
   async animarLimpiar() {
     const animation: Animation = this.animationCtrl.create()
@@ -52,15 +62,22 @@ export class RegistrouserPage implements OnInit {
   ngOnInit() {
   }
  
-  async registrarUsuario() {
-    const alert = await this.alertController.create({
-      header: 'Registro Exitoso',
-      message: 'Usuario registrado correctamente.',
-      buttons: ['Aceptar'],
+ registrarUsuario(): void{
+    this.registrarEstudiante.RegistroEstudiante(this.formRegistro.value)
+    .then(() => {
+      const alert = this.alertController.create({
+        header: 'Registro Exitoso',
+        message: 'Usuario registrado correctamente.',
+        buttons: ['Aceptar'],
+      });
+    })
+    .catch((error) => {
+      console.error('Error al registrar usuario:', error);
     });
-
-    await alert.present();
+    
   }
+
+
 }
 
 

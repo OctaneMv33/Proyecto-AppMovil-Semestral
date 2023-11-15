@@ -7,17 +7,17 @@
     <h6 class="texto" style="text-align: center;">Ingrese sus datos para registrar su usuario.</h6>
   </div>
   <br>
-  <ion-list class="lista">
-    <form [formGroup]="formRegistro">
+  <ion-list class="lista">  
+    <form [formGroup]="formRegistro" >
       <!-- Rut -->
-      <ion-item>
-        <ion-input id="rut" class="shake texto" maxlength="8" formControlName="rut" labelPlacement="floating" placeholder="12.345.678-9">
+      <ion-item class="texto">
+        <ion-input maxlength="8" formControlName="rut" labelPlacement="floating" placeholder="12.345.678-9">
           <div slot="label">
             <ion-text class="texto">Rut</ion-text>
           </div>
         </ion-input>
         <br>
-        <ion-input id="dvrut" class="shake texto" maxlength="1" formControlName="dvrut" labelPlacement="floating" placeholder="K">
+        <ion-input maxlength="1" formControlName="dvrut" labelPlacement="floating" placeholder="K">
           <div slot="label">
             <ion-text class="texto">DvRut</ion-text>
           </div>
@@ -25,8 +25,8 @@
       </ion-item>
   
       <!-- Email -->
-      <ion-item>
-        <ion-input id="usuario" class="shake texto" formControlName="email" labelPlacement="floating" placeholder="ejemplo@correo.com">
+      <ion-item class="texto">
+        <ion-input type="email" formControlName="email" labelPlacement="floating" placeholder="ejemplo@correo.com">
           <div slot="label">
             <ion-text class="texto">Email</ion-text>
           </div>
@@ -34,8 +34,8 @@
       </ion-item>
   
       <!-- Contraseña -->
-      <ion-item>
-        <ion-input id="contrasena" class="shake texto" formControlName="password" type="password" labelPlacement="floating" placeholder="**********">
+      <ion-item class="texto">
+        <ion-input formControlName="contrasena" type="password" labelPlacement="floating" placeholder="**********">
           <div slot="label">
             <ion-text class="texto">Contraseña</ion-text>
           </div>
@@ -43,8 +43,8 @@
       </ion-item>
   
       <!-- Primer Nombre -->
-      <ion-item>
-        <ion-input id="pnombre" class="shake texto" formControlName="pnombre" labelPlacement="floating" placeholder="Juan">
+      <ion-item class="texto">
+        <ion-input formControlName="pnombre" labelPlacement="floating" placeholder="Juan">
           <div slot="label">
             <ion-text class="texto">Primer Nombre</ion-text>
           </div>
@@ -52,8 +52,8 @@
       </ion-item>
   
       <!-- Apellido Paterno -->
-      <ion-item>
-        <ion-input id="appaterno" class="shake texto" formControlName="appaterno" labelPlacement="floating" placeholder="Pérez">
+      <ion-item class="texto">
+        <ion-input formControlName="appaterno" labelPlacement="floating" placeholder="Pérez">
           <div slot="label">
             <ion-text class="texto">Apellido Paterno</ion-text>
           </div>
@@ -67,7 +67,7 @@
    
   
   <br>
-  <ion-button style="margin: 10px;" expand="block" class="botones" color="amarillo-duoc" (click)="registrarUsuario()"><b>Registrar</b></ion-button>
+  <ion-button style="margin: 10px;" expand="block" class="botones" color="amarillo-duoc" (click)="registrarUsuario()" type="submit"><b>Registrar</b></ion-button>
   <ion-button style="margin: 10px;" expand="block" class="botones" color="amarillo-duoc" (click)="animarLimpiar()"><b>Limpiar</b></ion-button>
   <br>
   <img src="assets/footer.png" id="iconoAppId">
