@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, OnDestroy, Renderer2  } from '@angular/core';
+import { Router } from '@angular/router';
 import { Animation, AnimationController } from '@ionic/angular';
 import { UsuariosService } from '../servicios/usuarios.service';
 import { Camera, CameraResultType } from '@capacitor/camera';
@@ -12,14 +12,14 @@ import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, OnDestroy {
   dato: string | null = null;
   usuario: string | null = null;
   resultadoEscaneo = "";
   content_visibility= "show";
   
 
-  constructor(private activatedRoute: ActivatedRoute, private animationCtrl: AnimationController, private router: Router, 
+  constructor(private renderer: Renderer2, private animationCtrl: AnimationController, private router: Router, 
     private usuarioServicio: UsuariosService) { 
       
     }
@@ -54,9 +54,6 @@ export class HomePage implements OnInit {
   }
 
   //Este método deberá activar la cámara cuando toque aplicar el plugin, por ahora enviará el username al qr-scan page, para luego devolverse en caso de ser necesario.
-  escanearQR() {
-    this.router.navigate(['/qr-scan']);
-  }
 
   registrarAsistencia() {
     this.router.navigate(['/formulario']);
@@ -135,19 +132,19 @@ export class HomePage implements OnInit {
   };
  
   async checkPermission() {
-    try {
-      const status = await BarcodeScanner.checkPermission({ force: true });
-      if (status && status.granted) {
+    try{
+      const estado = await BarcodeScanner.checkPermission({ force: true });
+      if(estado.granted){
         return true;
+      } else {
       }
-      return false;
-    } catch (e) {
-      console.error('Error al verificar el permiso:', e);
-      return false;
+    } catch(e){
+      console.log(e);
     }
+    return false;
   }
 
-  async scanBarcode(){
+  async escanearQR(){
     try {
       const permiso = await this.checkPermission(); 
       if(!permiso){
@@ -155,29 +152,36 @@ export class HomePage implements OnInit {
       }
       await BarcodeScanner.hideBackground();
       document.querySelector('body')?.classList.add('scanner-active');
+      const divs = document.querySelectorAll('div');
+      divs.forEach(div => {
+        this.renderer.addClass(div, 'hidden');
+      });
       const resultado = await BarcodeScanner.startScan();
       console.log(resultado);
       if(resultado?.hasContent){
         this.resultadoEscaneo = resultado.content;
         BarcodeScanner.showBackground();
         document.querySelector('body')?.classList.remove('scanner-active');
+        divs.forEach(div => {
+          this.renderer.removeClass(div, 'hidden');
+        });
         console.log(this.resultadoEscaneo);
       }
     } catch(e){
       console.log(e);
       this.stopScan();
     }
-  
   }
+
   stopScan(){
-    
     BarcodeScanner.showBackground();
     BarcodeScanner.stopScan();
     document.querySelector('body')?.classList.remove('scanner-active')
-  
   }
 
-   
+  ngOnDestroy(): void {
+    this.stopScan();
+  }
 
 
 }

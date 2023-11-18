@@ -36,3 +36,11 @@ $morado-duoc: #002138;
     color: black;
 }
 
+body.scanner-active {
+    --background: transparent;
+    --ion-background-color: transparent;
+
+    div.hidden {
+        display: none;
+      }    
+  }
