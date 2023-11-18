@@ -4,11 +4,6 @@ import { Animation, AnimationController } from '@ionic/angular';
 import { UsuariosService } from '../servicios/usuarios.service';
 import { Camera, CameraResultType } from '@capacitor/camera';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
-import { ToastController } from '@ionic/angular';
-
-
-
-
 
 
 
@@ -20,8 +15,14 @@ import { ToastController } from '@ionic/angular';
 export class HomePage implements OnInit {
   dato: string | null = null;
   usuario: string | null = null;
+  resultadoEscaneo = "";
+  content_visibility= "show";
+  
+
   constructor(private activatedRoute: ActivatedRoute, private animationCtrl: AnimationController, private router: Router, 
-    private usuarioServicio: UsuariosService,private toastController: ToastController) { }
+    private usuarioServicio: UsuariosService) { 
+      
+    }
 
   //Este método anima el título que está en el header de la página
   async animarTitulo() {
@@ -133,20 +134,50 @@ export class HomePage implements OnInit {
 
   };
  
-  async scanBarcode() {
-    const result = await BarcodeScanner.startScan();
-    if (result.hasContent) {
-      console.log('Código escaneado:', result.content);
-
-      // Verifica si el resultado coincide con el código esperado para la asistencia
-      if (result.content === 'codigo_esperado_para_asistencia') {
-        console.log('Asistencia registrada');
-      } else {
-        console.log('Código no válido para asistencia');
+  async checkPermission() {
+    try {
+      const status = await BarcodeScanner.checkPermission({ force: true });
+      if (status && status.granted) {
+        return true;
       }
-    } else {
-      console.log('No se ha escaneado ningún código.');
+      return false;
+    } catch (e) {
+      console.error('Error al verificar el permiso:', e);
+      return false;
     }
   }
+
+  async scanBarcode(){
+    try {
+      const permiso = await this.checkPermission(); 
+      if(!permiso){
+        return;
+      }
+      await BarcodeScanner.hideBackground();
+      document.querySelector('body')?.classList.add('scanner-active');
+      const resultado = await BarcodeScanner.startScan();
+      console.log(resultado);
+      if(resultado?.hasContent){
+        this.resultadoEscaneo = resultado.content;
+        BarcodeScanner.showBackground();
+        document.querySelector('body')?.classList.remove('scanner-active');
+        console.log(this.resultadoEscaneo);
+      }
+    } catch(e){
+      console.log(e);
+      this.stopScan();
+    }
   
+  }
+  stopScan(){
+    
+    BarcodeScanner.showBackground();
+    BarcodeScanner.stopScan();
+    document.querySelector('body')?.classList.remove('scanner-active')
+  
+  }
+
+   
+
+
 }

@@ -14,6 +14,8 @@ export class VerAsistenciaPage implements OnInit {
 
   datosAsistencia: Asistencia[] = [];
   datosAsistenciaFiltrados: Asistencia[] = [];
+ 
+  
 
   constructor(
     private verAsistenciaService: VerAsistenciaService,
@@ -80,12 +82,17 @@ export class VerAsistenciaPage implements OnInit {
     await animation.play()
   }
 
+  
+  
+
   home() {
-    this.router.navigate(['/home']);
+    // Puedes agregar lógica aquí para navegar a la página de inicio si es necesario
+    console.log('Navegando a la página de inicio...');
   }
 
   ngOnInit() {
-    // this.obtenerDatos();   <-- Después arreglaremos este método
-    this.animarTitulo();
+    // Este método se llama automáticamente cuando la página se inicializa
+    // Puedes realizar inicializaciones o lógica aquí si es necesario
   }
+
 }
