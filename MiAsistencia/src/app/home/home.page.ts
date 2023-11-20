@@ -4,6 +4,10 @@ import { Animation, AnimationController } from '@ionic/angular';
 import { UsuariosService } from '../servicios/usuarios.service';
 import { Camera, CameraResultType } from '@capacitor/camera';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
+import { RegistroAsistenciaService } from '../servicios/registro-asistencia.service';
+import { Auth } from '@angular/fire/auth';
+import { Firestore, doc, getDoc } from '@angular/fire/firestore';
+
 
 
 
@@ -19,11 +23,10 @@ export class HomePage implements OnInit, OnDestroy {
   content_visibility = "show";
 
 
-  constructor(private renderer: Renderer2, private animationCtrl: AnimationController, private router: Router,
-    private usuarioServicio: UsuariosService) {
+  constructor(private renderer: Renderer2, private animationCtrl: AnimationController, private router: Router, private RegistroAsistenciaService: RegistroAsistenciaService,
+    private usuarioServicio: UsuariosService, private auth: Auth, private firestore: Firestore, private query: Query) {
 
   }
-
   //Este método anima el título que está en el header de la página
   async animarTitulo() {
     const animation: Animation = this.animationCtrl.create()
@@ -160,6 +163,11 @@ export class HomePage implements OnInit, OnDestroy {
       const resultado = await BarcodeScanner.startScan();
       console.log("resultado");
       console.log(resultado);
+      if (this.auth) {
+        const usuario = this.auth.currentUser?.uid;
+        const docUser = doc(this.firestore, 'estudiantes')
+        console.log(docUser)
+      }
       if (resultado?.hasContent) {
         this.resultadoEscaneo = resultado.content;
         BarcodeScanner.showBackground();
@@ -167,6 +175,8 @@ export class HomePage implements OnInit, OnDestroy {
         divs.forEach(div => {
           this.renderer.removeClass(div, 'hidden');
         });
+        //Obtener datos usuario
+
         const palabras = resultado.content.split(',');
         console.log(palabras[1]);
         console.log("resultadoEscaneo2");
