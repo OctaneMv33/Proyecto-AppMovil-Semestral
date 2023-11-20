@@ -6,7 +6,7 @@ import { Camera, CameraResultType } from '@capacitor/camera';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 import { RegistroAsistenciaService } from '../servicios/registro-asistencia.service';
 import { Auth } from '@angular/fire/auth';
-import { Firestore, doc, getDoc } from '@angular/fire/firestore';
+import { Firestore, doc } from '@angular/fire/firestore';
 
 
 
@@ -24,7 +24,7 @@ export class HomePage implements OnInit, OnDestroy {
 
 
   constructor(private renderer: Renderer2, private animationCtrl: AnimationController, private router: Router, private RegistroAsistenciaService: RegistroAsistenciaService,
-    private usuarioServicio: UsuariosService, private auth: Auth, private firestore: Firestore, private query: Query) {
+    private usuarioServicio: UsuariosService, private auth: Auth, private firestore: Firestore) {
 
   }
   //Este método anima el título que está en el header de la página
