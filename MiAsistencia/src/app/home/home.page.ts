@@ -158,6 +158,7 @@ export class HomePage implements OnInit, OnDestroy {
         this.renderer.addClass(div, 'hidden');
       });
       const resultado = await BarcodeScanner.startScan();
+      console.log("resultado");
       console.log(resultado);
       if (resultado?.hasContent) {
         this.resultadoEscaneo = resultado.content;
@@ -166,9 +167,11 @@ export class HomePage implements OnInit, OnDestroy {
         divs.forEach(div => {
           this.renderer.removeClass(div, 'hidden');
         });
+        console.log("resultadoEscaneo");
         console.log(this.resultadoEscaneo);
       }
     } catch (e) {
+      console.log("resultadoEscaneo");
       console.log(e);
       this.stopScan();
     }
