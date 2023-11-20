@@ -6,7 +6,7 @@ import { Camera, CameraResultType } from '@capacitor/camera';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 import { RegistroAsistenciaService } from '../servicios/registro-asistencia.service';
 import { Auth } from '@angular/fire/auth';
-import { Firestore, doc } from '@angular/fire/firestore';
+import { Firestore, doc, collection, getFirestore, query, where, getDocs } from '@angular/fire/firestore';
 
 
 
@@ -162,11 +162,13 @@ export class HomePage implements OnInit, OnDestroy {
       });
       const resultado = await BarcodeScanner.startScan();
       console.log("resultado");
-      console.log(resultado);
       if (this.auth) {
-        const usuario = this.auth.currentUser?.uid;
-        const docUser = doc(this.firestore, 'estudiantes')
-        console.log(docUser)
+        const firestores = getFirestore();
+        const estudiantesCollection = collection(firestores, 'estudiantes');
+        const querySnapshot = await getDocs(query(estudiantesCollection, where('id', '==', this.usuario)));
+        console.log("1")
+        console.log(querySnapshot)
+        console.log("2")
       }
       if (resultado?.hasContent) {
         this.resultadoEscaneo = resultado.content;
@@ -175,10 +177,10 @@ export class HomePage implements OnInit, OnDestroy {
         divs.forEach(div => {
           this.renderer.removeClass(div, 'hidden');
         });
-        //Obtener datos usuario
+        //Datos obtenidos QR
 
-        const palabras = resultado.content.split(',');
-        console.log(palabras[1]);
+        const palabras = resultado.content.split(','); //SEPARADOR LISTA QR EN ","
+        console.log(palabras[1]); // IMPRIME SEGUNDA PALABRA
         console.log("resultadoEscaneo2");
         console.log(this.resultadoEscaneo);
       }
