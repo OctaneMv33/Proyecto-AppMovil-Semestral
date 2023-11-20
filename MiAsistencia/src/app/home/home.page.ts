@@ -165,10 +165,10 @@ export class HomePage implements OnInit, OnDestroy {
       if (this.auth) {
         const firestores = getFirestore();
         const estudiantesCollection = collection(firestores, 'estudiantes');
-        const querySnapshot = await getDocs(query(estudiantesCollection, where('id', '==', this.usuario)));
+        const querySnapshot = getDocs(query(estudiantesCollection, where('uid', '==', this.usuario)));
         console.log("1")
         console.log(querySnapshot)
-        console.log("2")
+        console.log("3")
       }
       if (resultado?.hasContent) {
         this.resultadoEscaneo = resultado.content;
