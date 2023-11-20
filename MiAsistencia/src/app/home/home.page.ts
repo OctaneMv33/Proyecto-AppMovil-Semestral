@@ -168,12 +168,11 @@ export class HomePage implements OnInit, OnDestroy {
           this.renderer.removeClass(div, 'hidden');
         });
         const palabras = resultado.content.split(',');
-        console.log(palabras);
-        console.log("resultadoEscaneo");
+        console.log(palabras[1]);
+        console.log("resultadoEscaneo2");
         console.log(this.resultadoEscaneo);
       }
     } catch (e) {
-      console.log("resultadoEscaneo2");
       console.log(e);
       this.stopScan();
     }
