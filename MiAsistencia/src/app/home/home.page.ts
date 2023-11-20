@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Renderer2  } from '@angular/core';
+import { Component, OnInit, OnDestroy, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
 import { Animation, AnimationController } from '@ionic/angular';
 import { UsuariosService } from '../servicios/usuarios.service';
@@ -16,13 +16,13 @@ export class HomePage implements OnInit, OnDestroy {
   dato: string | null = null;
   usuario: string | null = null;
   resultadoEscaneo = "";
-  content_visibility= "show";
-  
+  content_visibility = "show";
 
-  constructor(private renderer: Renderer2, private animationCtrl: AnimationController, private router: Router, 
-    private usuarioServicio: UsuariosService) { 
-      
-    }
+
+  constructor(private renderer: Renderer2, private animationCtrl: AnimationController, private router: Router,
+    private usuarioServicio: UsuariosService) {
+
+  }
 
   //Este método anima el título que está en el header de la página
   async animarTitulo() {
@@ -130,24 +130,25 @@ export class HomePage implements OnInit, OnDestroy {
     // Can be set to the src of an image now
 
   };
- 
+
   async checkPermission() {
-    try{
+    try {
       const estado = await BarcodeScanner.checkPermission({ force: true });
-      if(estado.granted){
+      if (estado.granted) {
         return true;
       } else {
       }
-    } catch(e){
+    } catch (e) {
       console.log(e);
     }
     return false;
   }
 
-  async escanearQR(){
+  async escanearQR() {
+    //let barcodeData = "rutAl,fecha,asignaturaAl,estado";
     try {
-      const permiso = await this.checkPermission(); 
-      if(!permiso){
+      const permiso = await this.checkPermission();
+      if (!permiso) {
         return;
       }
       await BarcodeScanner.hideBackground();
@@ -158,7 +159,7 @@ export class HomePage implements OnInit, OnDestroy {
       });
       const resultado = await BarcodeScanner.startScan();
       console.log(resultado);
-      if(resultado?.hasContent){
+      if (resultado?.hasContent) {
         this.resultadoEscaneo = resultado.content;
         BarcodeScanner.showBackground();
         document.querySelector('body')?.classList.remove('scanner-active');
@@ -167,13 +168,13 @@ export class HomePage implements OnInit, OnDestroy {
         });
         console.log(this.resultadoEscaneo);
       }
-    } catch(e){
+    } catch (e) {
       console.log(e);
       this.stopScan();
     }
   }
 
-  stopScan(){
+  stopScan() {
     BarcodeScanner.showBackground();
     BarcodeScanner.stopScan();
     document.querySelector('body')?.classList.remove('scanner-active')
