@@ -12,17 +12,6 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-
- /* usuarios: User[] = [
-    { id: 1, usuario: 'al.zunigam', contrasena: '1234' },
-    { id: 2, usuario: 'ma.palacioso', contrasena: '1234' },
-    { id: 3, usuario: 'ja.martinezq', contrasena: '1234' },
-    { id: 4, usuario: 'er.galvez', contrasena: '1234' },
-    { id: 5, usuario: 'ro.narbona', contrasena: '1234' }
-  ];
-
-  usuario: string = '';
-  contrasena: string = '';*/
   
   formLogin: FormGroup;
 
@@ -88,12 +77,7 @@ export class LoginPage implements OnInit {
     if (this.formLogin && emailControl && emailControl.value.match(emailRegex)) {
       this.usuarioServicio.login(this.formLogin.value)
         .then(response => {
-          const navigationExtras: NavigationExtras = {
-            state: {
-              email: emailControl.value
-            }
-          };
-          this.router.navigate(['/home'], navigationExtras);
+          this.router.navigate(['/home']);
           this.usuarioServicio.presentToast('Ingreso exitoso'); // Muestra un mensaje de éxito
         })
         .catch(error => console.log(error));

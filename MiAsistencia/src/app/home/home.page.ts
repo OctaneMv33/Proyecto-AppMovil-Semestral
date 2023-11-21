@@ -4,7 +4,8 @@ import { Animation, AnimationController } from '@ionic/angular';
 import { UsuariosService } from '../servicios/usuarios.service';
 import { Camera, CameraResultType } from '@capacitor/camera';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
-
+import { Estudiante } from '../app.model';
+import { Auth } from '@angular/fire/auth';
 
 
 @Component({
@@ -14,13 +15,15 @@ import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 })
 export class HomePage implements OnInit, OnDestroy {
   dato: string | null = null;
-  usuario: string | null = null;
+  usuario: Estudiante | null = null;
+  nombre: string | null = "";
+  idUsuario: any;
   resultadoEscaneo = "";
   content_visibility= "show";
   
 
   constructor(private renderer: Renderer2, private animationCtrl: AnimationController, private router: Router, 
-    private usuarioServicio: UsuariosService) { 
+    private usuarioServicio: UsuariosService, private auth: Auth) { 
       
     }
 
@@ -79,57 +82,17 @@ export class HomePage implements OnInit, OnDestroy {
     //Al iniciar la página, aplicará las dos animaciones declaradas arriba
     this.animarTitulo()
     this.animarContenido()
-    //Trayendo el correo que actuará como username, y reemplazamos el método que teníamos antes
-    const navigation = this.router.getCurrentNavigation();
-    if (navigation && navigation.extras.state) {
-      this.dato = navigation.extras.state['email'];
+    if(this.auth){
+      this.idUsuario = this.auth.currentUser?.uid;
     }
-    if (this.dato) {
-      const posicion = this.dato?.indexOf('@');
-      this.usuario = this.dato?.substring(0, posicion);
+    if(this.idUsuario){
+      this.usuarioServicio.datosEstudiante(this.idUsuario).subscribe((estudiante) => {
+        if(estudiante) {
+          this.nombre = estudiante.pnombre + " " + estudiante.appaterno
+        }
+      });
     }
   }
-
-  /* 
-    metodo activar carama 
-    async escanear() {
-      try {
-        const image = await Camera.getPhoto({
-          quality: 100, // Calidad de la imagen (0-100)
-          allowEditing: false, // Permite editar la imagen después de capturarla
-          resultType: CameraResultType.Base64, // Tipo de resultado (Base64)
-        });
-  
-        // Aquí puedes manejar la imagen capturada, por ejemplo, mostrarla en tu aplicación
-        const base64Image = 'data:image/jpeg;base64,' + image.base64String;
-        console.log(base64Image);
-      } catch (error) {
-        console.error("Error al capturar la imagen", error);
-      }
-    }
-    imports de capacitor 
-    import { Plugins, CameraResultType } from '@capacitor/core'; // Importa el complemento Camera de Capacitor
-  
-    const { Camera } = Plugins;
-    no funciona... hay que instalar comando de camara de capacitor para usarlo , pero hay un problema
-    con capacitor.conf.ts
-  */
-  tomarFoto = async () => {
-    const image = await Camera.getPhoto({
-      quality: 90,
-      allowEditing: true,
-      resultType: CameraResultType.Uri
-    });
-
-    // image.webPath will contain a path that can be set as an image src.
-    // You can access the original file using image.path, which can be
-    // passed to the Filesystem API to read the raw data of the image,
-    // if desired (or pass resultType: CameraResultType.Base64 to getPhoto)
-    var imageUrl = image.webPath;
-
-    // Can be set to the src of an image now
-
-  };
  
   async checkPermission() {
     try{

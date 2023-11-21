@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Auth, signInWithEmailAndPassword, signOut ,sendPasswordResetEmail } from '@angular/fire/auth';
 import { ToastController } from '@ionic/angular';
-
+import { Firestore, collection, doc, getDoc } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+import { Estudiante } from '../app.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuariosService {
   
-  constructor(private auth: Auth,private toastController: ToastController) { }
+  constructor(private auth: Auth,private toastController: ToastController, private firestore: Firestore) { }
 
   login({email, password}: any){
     return signInWithEmailAndPassword(this.auth, email, password);
@@ -42,9 +44,23 @@ export class UsuariosService {
     toast.present();
   }
 
-  
+  datosEstudiante(idUsuario: string): Observable<Estudiante | undefined> {
+    const docEstudiante = doc(this.firestore, 'estudiantes', idUsuario);
 
-  
+    return new Observable<Estudiante | undefined>(observer => {
+        getDoc(docEstudiante)
+          .then(docSnapshot => {
+            if(docSnapshot.exists()) {
+              const estudianteData = docSnapshot.data();
+              observer.next(estudianteData as Estudiante);
+            } else {
+              observer.next(undefined);
+            }
+            observer.complete();
+      })
+      .catch(error => {
+        observer.error(error);
+      });
+    });
+  }
 }
-
-
