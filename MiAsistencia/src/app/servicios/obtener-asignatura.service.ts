@@ -22,9 +22,6 @@ export class ObtenerAsignaturaService {
         .then((snapshot) => {
           if (snapshot.docs.length > 0) {
             const asignatura = snapshot.docs[0].data() as Asignatura;
-            console.log("Deberia mostrar asignatura")
-            console.log(asignatura)
-            console.log("Aqui")
             observer.next(asignatura);
           } else {
             observer.next(null); // No se encontró la tienda
