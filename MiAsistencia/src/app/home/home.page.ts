@@ -1,9 +1,13 @@
-import { Component, OnInit, OnDestroy, Renderer2  } from '@angular/core';
+import { Component, OnInit, OnDestroy, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
 import { Animation, AnimationController } from '@ionic/angular';
 import { UsuariosService } from '../servicios/usuarios.service';
-import { Camera, CameraResultType } from '@capacitor/camera';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
+import { Estudiante } from '../app.model';
+import { Auth } from '@angular/fire/auth';
+import { RegistroAsistenciaService } from '../servicios/registro-asistencia.service';
+import { Asistencia } from '../app.model';
+import { Firestore, collection, doc, getDocs, getFirestore, query, where } from '@angular/fire/firestore';
 import { Estudiante } from '../app.model';
 import { Auth } from '@angular/fire/auth';
 
@@ -18,14 +22,21 @@ export class HomePage implements OnInit, OnDestroy {
   usuario: Estudiante | null = null;
   nombre: string | null = "";
   idUsuario: any;
+  usuario: Estudiante | null = null;
+  nombre: string | null = "";
+  idUsuario: any;
   resultadoEscaneo = "";
-  content_visibility= "show";
-  
+  content_visibility = "show";
 
-  constructor(private renderer: Renderer2, private animationCtrl: AnimationController, private router: Router, 
-    private usuarioServicio: UsuariosService, private auth: Auth) { 
-      
-    }
+
+  constructor(private renderer: Renderer2, private animationCtrl: AnimationController, private router: Router,
+    private usuarioServicio: UsuariosService, private auth: Auth, private firestore: Firestore, private RegistroAsistenciaService: RegistroAsistenciaService) {
+
+  }
+  constructor(private renderer: Renderer2, private animationCtrl: AnimationController, private router: Router,
+    private usuarioServicio: UsuariosService, private auth: Auth) {
+
+  }
 
   //Este método anima el título que está en el header de la página
   async animarTitulo() {
@@ -82,35 +93,48 @@ export class HomePage implements OnInit, OnDestroy {
     //Al iniciar la página, aplicará las dos animaciones declaradas arriba
     this.animarTitulo()
     this.animarContenido()
-    if(this.auth){
+    if (this.auth) {
       this.idUsuario = this.auth.currentUser?.uid;
+      if (this.auth) {
+        this.idUsuario = this.auth.currentUser?.uid;
+      }
+      if (this.idUsuario) {
+        this.usuarioServicio.datosEstudiante(this.idUsuario).subscribe((estudiante) => {
+          if (estudiante) {
+            this.nombre = estudiante.pnombre + " " + estudiante.appaterno
+          }
+        });
+      }
     }
-    if(this.idUsuario){
+
+    if (this.idUsuario) {
       this.usuarioServicio.datosEstudiante(this.idUsuario).subscribe((estudiante) => {
-        if(estudiante) {
+        if (estudiante) {
           this.nombre = estudiante.pnombre + " " + estudiante.appaterno
         }
       });
     }
   }
- 
+
   async checkPermission() {
-    try{
+    try {
       const estado = await BarcodeScanner.checkPermission({ force: true });
-      if(estado.granted){
+      if (estado.granted) {
         return true;
       } else {
       }
-    } catch(e){
+    } catch (e) {
       console.log(e);
     }
     return false;
   }
 
-  async escanearQR(){
+  async escanearQR() {
+    const fecha = new Date();
+    //let barcodeData = "rutAl,fecha,asignaturaAl,estado";
     try {
-      const permiso = await this.checkPermission(); 
-      if(!permiso){
+      const permiso = await this.checkPermission();
+      if (!permiso) {
         return;
       }
       await BarcodeScanner.hideBackground();
@@ -120,23 +144,43 @@ export class HomePage implements OnInit, OnDestroy {
         this.renderer.addClass(div, 'hidden');
       });
       const resultado = await BarcodeScanner.startScan();
-      console.log(resultado);
-      if(resultado?.hasContent){
+      console.log("resultado");
+      if (this.auth) {
+        const firestores = getFirestore();
+        const estudiantesCollection = collection(firestores, 'estudiantes');
+        const querySnapshot = getDocs(query(estudiantesCollection, where('id', '==', this.usuario)));
+        console.log("1")
+        console.log(querySnapshot)
+        console.log("3")
+      }
+      if (resultado?.hasContent) {
         this.resultadoEscaneo = resultado.content;
         BarcodeScanner.showBackground();
         document.querySelector('body')?.classList.remove('scanner-active');
         divs.forEach(div => {
           this.renderer.removeClass(div, 'hidden');
         });
+        //Datos obtenidos QR
+
+        const palabras = resultado.content.split(','); //SEPARADOR LISTA QR EN "," Asignatura,sección,fecha,horaini,horafin.
+        const nuevaAsistencia: Asistencia = {
+          rut: 'valorRut',
+          fecha: palabras[2],
+          asignatura: palabras[0] + "-" + palabras[1],
+          estado: 'Aprobado'
+        };
+        const response = await this.RegistroAsistenciaService.AddAsistencia(nuevaAsistencia);
+        console.log(palabras[1]); // IMPRIME SEGUNDA PALABRA
+        console.log("resultadoEscaneo2");
         console.log(this.resultadoEscaneo);
       }
-    } catch(e){
+    } catch (e) {
       console.log(e);
       this.stopScan();
     }
   }
 
-  stopScan(){
+  stopScan() {
     BarcodeScanner.showBackground();
     BarcodeScanner.stopScan();
     document.querySelector('body')?.classList.remove('scanner-active')
