@@ -6,34 +6,29 @@ import { Camera, CameraResultType } from '@capacitor/camera';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 import { RegistroAsistenciaService } from '../servicios/registro-asistencia.service';
 import { Auth } from '@angular/fire/auth';
-<<<<<<< Updated upstream
 import { Firestore, doc, collection, getFirestore, query, where, getDocs } from '@angular/fire/firestore';
 
 
-=======
-import { RegistroAsistenciaService } from '../servicios/registro-asistencia.service';
->>>>>>> Stashed changes
-
+export interface Asistencia {
+  rut: string;
+  fecha: string;
+  asignatura: string;
+  estado: string;
+}
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
+
 export class HomePage implements OnInit, OnDestroy {
   dato: string | null = null;
   usuario: string | null = null;
   resultadoEscaneo = "";
   content_visibility = "show";
+  ingreso: string[] = ['asignatura', 'correo', 'fecha', 'seccion'];
 
-<<<<<<< Updated upstream
-=======
-
-  constructor(private renderer: Renderer2, private animationCtrl: AnimationController, private router: Router,
-    private usuarioServicio: UsuariosService, private auth: Auth) {
-
-  }
->>>>>>> Stashed changes
 
   constructor(private renderer: Renderer2, private animationCtrl: AnimationController, private router: Router, private RegistroAsistenciaService: RegistroAsistenciaService,
     private usuarioServicio: UsuariosService, private auth: Auth, private firestore: Firestore) {
@@ -94,7 +89,6 @@ export class HomePage implements OnInit, OnDestroy {
     //Al iniciar la página, aplicará las dos animaciones declaradas arriba
     this.animarTitulo()
     this.animarContenido()
-<<<<<<< Updated upstream
     //Trayendo el correo que actuará como username, y reemplazamos el método que teníamos antes
     const navigation = this.router.getCurrentNavigation();
     if (navigation && navigation.extras.state) {
@@ -147,20 +141,6 @@ export class HomePage implements OnInit, OnDestroy {
 
   };
 
-=======
-    if (this.auth) {
-      this.idUsuario = this.auth.currentUser?.uid;
-    }
-    if (this.idUsuario) {
-      this.usuarioServicio.datosEstudiante(this.idUsuario).subscribe((estudiante) => {
-        if (estudiante) {
-          this.nombre = estudiante.pnombre + " " + estudiante.appaterno
-        }
-      });
-    }
-  }
-
->>>>>>> Stashed changes
   async checkPermission() {
     try {
       const estado = await BarcodeScanner.checkPermission({ force: true });
@@ -175,10 +155,7 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   async escanearQR() {
-<<<<<<< Updated upstream
-=======
     const fecha = new Date();
->>>>>>> Stashed changes
     //let barcodeData = "rutAl,fecha,asignaturaAl,estado";
     try {
       const permiso = await this.checkPermission();
@@ -209,12 +186,14 @@ export class HomePage implements OnInit, OnDestroy {
           this.renderer.removeClass(div, 'hidden');
         });
         //Datos obtenidos QR
-
-<<<<<<< Updated upstream
-        const palabras = resultado.content.split(','); //SEPARADOR LISTA QR EN ","
-=======
+        const nuevaAsistencia: Asistencia = {
+          rut: 'valorRut',
+          fecha: 'valorFecha',
+          asignatura: 'valorAsignatura',
+          estado: 'valorEstadoTs'
+        };
         const palabras = resultado.content.split(','); //SEPARADOR LISTA QR EN "," Sigla,sección,fecha,horaini,horafin.
->>>>>>> Stashed changes
+        const response = await this.RegistroAsistenciaService.AddAsistencia(nuevaAsistencia);
         console.log(palabras[1]); // IMPRIME SEGUNDA PALABRA
         console.log("resultadoEscaneo2");
         console.log(this.resultadoEscaneo);
