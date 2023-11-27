@@ -19,6 +19,7 @@ export class HomePage implements OnInit, OnDestroy {
   dato: string | null = null;
   usuario: Estudiante | null = null;
   nombre: string | null = "";
+  run: string | null = "";
   idUsuario: any;
   resultadoEscaneo = "";
   content_visibility = "show";
@@ -93,6 +94,7 @@ export class HomePage implements OnInit, OnDestroy {
       this.usuarioServicio.datosEstudiante(this.idUsuario).subscribe((estudiante) => {
         if (estudiante) {
           this.nombre = estudiante.pnombre + " " + estudiante.appaterno
+          this.run = estudiante.rut + "-" + estudiante.dvrut
         }
       });
     }
@@ -142,16 +144,24 @@ export class HomePage implements OnInit, OnDestroy {
         divs.forEach(div => {
           this.renderer.removeClass(div, 'hidden');
         });
-        //Datos obtenidos QR
-
+        //separar datos de qr por ","
         const palabras = resultado.content.split(','); //SEPARADOR LISTA QR EN "," Asignatura,sección,fecha,horaini,horafin.
-        const nuevaAsistencia: Asistencia = {
-          rut: 'valorRut',
-          fecha: palabras[2],
-          asignatura: palabras[0] + "-" + palabras[1],
-          estado: 'Aprobado'
-        };
-        const response = await this.RegistroAsistenciaService.AddAsistencia(nuevaAsistencia);
+        //Datos Estudiante 
+        this.idUsuario = this.auth.currentUser?.uid;
+        //Si es que existe el estudiante, ingresa los datos a la dbb.
+        this.usuarioServicio.datosEstudiante(this.idUsuario).subscribe((estudiante) => {
+          if (estudiante) {
+            this.nombre = estudiante.pnombre + " " + estudiante.appaterno
+            const nuevaAsistencia: Asistencia = {
+              rut: estudiante.rut + "-" + estudiante.dvrut,
+              fecha: palabras[2],
+              asignatura: palabras[0] + "-" + palabras[1],
+              estado: 'Aprobado'
+            };
+            const response = this.RegistroAsistenciaService.AddAsistencia(nuevaAsistencia);
+          }
+        });
+        //Datos obtenidos QR
         console.log(palabras[1]); // IMPRIME SEGUNDA PALABRA
         console.log("resultadoEscaneo2");
         console.log(this.resultadoEscaneo);
