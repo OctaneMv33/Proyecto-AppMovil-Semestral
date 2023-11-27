@@ -3,8 +3,6 @@ import { Router } from '@angular/router';
 import { Animation, AnimationController } from '@ionic/angular';
 import { UsuariosService } from '../servicios/usuarios.service';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
-import { Estudiante } from '../app.model';
-import { Auth } from '@angular/fire/auth';
 import { RegistroAsistenciaService } from '../servicios/registro-asistencia.service';
 import { Asistencia } from '../app.model';
 import { Firestore, collection, doc, getDocs, getFirestore, query, where } from '@angular/fire/firestore';
@@ -22,9 +20,6 @@ export class HomePage implements OnInit, OnDestroy {
   usuario: Estudiante | null = null;
   nombre: string | null = "";
   idUsuario: any;
-  usuario: Estudiante | null = null;
-  nombre: string | null = "";
-  idUsuario: any;
   resultadoEscaneo = "";
   content_visibility = "show";
 
@@ -33,10 +28,7 @@ export class HomePage implements OnInit, OnDestroy {
     private usuarioServicio: UsuariosService, private auth: Auth, private firestore: Firestore, private RegistroAsistenciaService: RegistroAsistenciaService) {
 
   }
-  constructor(private renderer: Renderer2, private animationCtrl: AnimationController, private router: Router,
-    private usuarioServicio: UsuariosService, private auth: Auth) {
 
-  }
 
   //Este método anima el título que está en el header de la página
   async animarTitulo() {
@@ -89,24 +81,14 @@ export class HomePage implements OnInit, OnDestroy {
       .catch(error => console.log(error));
   }
 
+
   ngOnInit() {
     //Al iniciar la página, aplicará las dos animaciones declaradas arriba
     this.animarTitulo()
     this.animarContenido()
     if (this.auth) {
       this.idUsuario = this.auth.currentUser?.uid;
-      if (this.auth) {
-        this.idUsuario = this.auth.currentUser?.uid;
-      }
-      if (this.idUsuario) {
-        this.usuarioServicio.datosEstudiante(this.idUsuario).subscribe((estudiante) => {
-          if (estudiante) {
-            this.nombre = estudiante.pnombre + " " + estudiante.appaterno
-          }
-        });
-      }
     }
-
     if (this.idUsuario) {
       this.usuarioServicio.datosEstudiante(this.idUsuario).subscribe((estudiante) => {
         if (estudiante) {
