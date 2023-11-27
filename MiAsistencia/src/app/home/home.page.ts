@@ -7,14 +7,9 @@ import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 import { RegistroAsistenciaService } from '../servicios/registro-asistencia.service';
 import { Auth } from '@angular/fire/auth';
 import { Firestore, doc, collection, getFirestore, query, where, getDocs } from '@angular/fire/firestore';
+import { Asistencia } from '../app.model';
 
 
-export interface Asistencia {
-  rut: string;
-  fecha: string;
-  asignatura: string;
-  estado: string;
-}
 
 @Component({
   selector: 'app-home',
@@ -186,13 +181,14 @@ export class HomePage implements OnInit, OnDestroy {
           this.renderer.removeClass(div, 'hidden');
         });
         //Datos obtenidos QR
+
+        const palabras = resultado.content.split(','); //SEPARADOR LISTA QR EN "," Asignatura,sección,fecha,horaini,horafin.
         const nuevaAsistencia: Asistencia = {
           rut: 'valorRut',
-          fecha: 'valorFecha',
-          asignatura: 'valorAsignatura',
-          estado: 'valorEstadoTs'
+          fecha: palabras[2],
+          asignatura: palabras[0] + "-" + palabras[1],
+          estado: 'Aprobado'
         };
-        const palabras = resultado.content.split(','); //SEPARADOR LISTA QR EN "," Sigla,sección,fecha,horaini,horafin.
         const response = await this.RegistroAsistenciaService.AddAsistencia(nuevaAsistencia);
         console.log(palabras[1]); // IMPRIME SEGUNDA PALABRA
         console.log("resultadoEscaneo2");
