@@ -4,10 +4,12 @@ import { Animation, AnimationController } from '@ionic/angular';
 import { UsuariosService } from '../servicios/usuarios.service';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 import { RegistroAsistenciaService } from '../servicios/registro-asistencia.service';
-import { Asistencia } from '../app.model';
+import { Asignatura, Asistencia } from '../app.model';
 import { Firestore, collection, doc, getDocs, getFirestore, query, where } from '@angular/fire/firestore';
 import { Estudiante } from '../app.model';
 import { Auth } from '@angular/fire/auth';
+import { ObtenerAsignaturaService } from '../servicios/obtener-asignatura.service';
+import { Clase } from '../app.model';
 
 
 @Component({
@@ -23,10 +25,13 @@ export class HomePage implements OnInit, OnDestroy {
   idUsuario: any;
   resultadoEscaneo = "";
   content_visibility = "show";
+  asignatura: Asignatura | null = null;
+  clase: Clase[] | undefined;
+  sameFecha: Boolean = false;
 
 
   constructor(private renderer: Renderer2, private animationCtrl: AnimationController, private router: Router,
-    private usuarioServicio: UsuariosService, private auth: Auth, private firestore: Firestore, private RegistroAsistenciaService: RegistroAsistenciaService) {
+    private usuarioServicio: UsuariosService, private obtenerAsignatura: ObtenerAsignaturaService, private auth: Auth, private firestore: Firestore, private RegistroAsistenciaService: RegistroAsistenciaService) {
 
   }
 
@@ -128,14 +133,11 @@ export class HomePage implements OnInit, OnDestroy {
         this.renderer.addClass(div, 'hidden');
       });
       const resultado = await BarcodeScanner.startScan();
-      console.log("resultado");
       if (this.auth) {
         const firestores = getFirestore();
         const estudiantesCollection = collection(firestores, 'estudiantes');
         const querySnapshot = getDocs(query(estudiantesCollection, where('id', '==', this.usuario)));
-        console.log("1")
         console.log(querySnapshot)
-        console.log("3")
       }
       if (resultado?.hasContent) {
         this.resultadoEscaneo = resultado.content;
@@ -146,24 +148,44 @@ export class HomePage implements OnInit, OnDestroy {
         });
         //separar datos de qr por ","
         const palabras = resultado.content.split(','); //SEPARADOR LISTA QR EN "," Asignatura,sección,fecha,horaini,horafin.
-        //Datos Estudiante 
-        this.idUsuario = this.auth.currentUser?.uid;
-        //Si es que existe el estudiante, ingresa los datos a la dbb.
-        this.usuarioServicio.datosEstudiante(this.idUsuario).subscribe((estudiante) => {
-          if (estudiante) {
-            this.nombre = estudiante.pnombre + " " + estudiante.appaterno
-            const nuevaAsistencia: Asistencia = {
-              rut: estudiante.rut + "-" + estudiante.dvrut,
-              fecha: palabras[2],
-              asignatura: palabras[0] + "-" + palabras[1],
-              estado: 'Aprobado'
-            };
-            const response = this.RegistroAsistenciaService.AddAsistencia(nuevaAsistencia);
+        const sigla = palabras[0]
+        const seccion = palabras[1]
+        this.obtenerAsignatura.obtenerDetallesAsignatura(sigla, seccion).subscribe((data) => {
+          if (data) {
+            this.asignatura = data
+            this.clase = this.asignatura.clases
+            //Si ve que existe alguna clase con esa sigla, recorre el array de todas las clases que se han repartido
+            if (this.clase) {
+              for (let i = 0; i < this.clase.length; i++) {
+                //Si es que existe esa fecha, valida la clase del dia.
+                if (palabras[2] == this.clase[i].fecha) {
+                  this.sameFecha = true;
+                }
+              }
+              //Datos Estudiante 
+              this.idUsuario = this.auth.currentUser?.uid;
+              //Si es que existe el estudiante, ingresa los datos a la dbb.
+              if (this.sameFecha) {
+                this.usuarioServicio.datosEstudiante(this.idUsuario).subscribe((estudiante) => {
+                  if (estudiante) {
+                    this.nombre = estudiante.pnombre + " " + estudiante.appaterno
+                    const nuevaAsistencia: Asistencia = {
+                      rut: estudiante.rut + "-" + estudiante.dvrut,
+                      fecha: palabras[2],
+                      asignatura: palabras[0] + "-" + palabras[1],
+                      estado: 'Presente'
+                    };
+                    const response = this.RegistroAsistenciaService.AddAsistencia(nuevaAsistencia);
+                  }
+                });
+              }
+            }
           }
         });
+
         //Datos obtenidos QR
         console.log(palabras[1]); // IMPRIME SEGUNDA PALABRA
-        console.log("resultadoEscaneo2");
+        console.log("resultadoEscaneo3");
         console.log(this.resultadoEscaneo);
       }
     } catch (e) {
