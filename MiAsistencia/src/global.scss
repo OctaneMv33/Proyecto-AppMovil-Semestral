@@ -32,6 +32,10 @@ $morado-duoc: #002138;
     color: black;
 }
 
+ion-button.botonPararEscaner{
+    display: none;
+}
+
 .texto{
     color: black;
 }
@@ -42,5 +46,16 @@ body.scanner-active {
 
     div.hidden {
         display: none;
-      }    
+      }
+
+      ion-button.botonPararEscaner{
+        background-color: var(--amarillo-duoc);
+        color: black;
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        margin-bottom: 70px;
+        height: 5%;
+      }
+
   }

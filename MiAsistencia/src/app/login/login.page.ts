@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Animation, AnimationController } from '@ionic/angular';
-//import { User } from '../app.model';
-import { Router, NavigationExtras } from '@angular/router';
+import { Router } from '@angular/router';
 import { UsuariosService } from '../servicios/usuarios.service';
 import { FormControl, FormGroup } from '@angular/forms';
 
@@ -84,17 +83,8 @@ export class LoginPage implements OnInit {
     } else {
       this.usuarioServicio.presentToast('Error: el formato del correo electrónico no es válido'); // Muestra un mensaje de error
     }
-}
-
-
-  reset(){
-    this.router.navigate(['/reset-password'])
-    
   }
 
-  registro(){
-    this.router.navigate(['/registrouser'])
-  }
 
   ngOnInit() {
     this.animarTitulo();

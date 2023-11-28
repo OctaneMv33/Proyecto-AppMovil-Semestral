@@ -5,7 +5,7 @@ export interface Estudiante{
     contrasena: string;
     pnombre: string;
     appaterno: string;
-    asignaturas: Asignatura[];
+    asignaturas: AsignaturaSinClases[];
 }
 
 export interface Asistencia {
@@ -25,4 +25,9 @@ export interface Asignatura{
     sigla: string;
     seccion: string;
     clases: Clase[];
+}
+
+export interface AsignaturaSinClases{
+    sigla: string;
+    seccion: string;
 }

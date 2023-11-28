@@ -26,7 +26,7 @@
   
       <!-- Email -->
       <ion-item class="texto">
-        <ion-input type="email" formControlName="email" labelPlacement="floating" placeholder="ejemplo@correo.com">
+        <ion-input type="email" formControlName="email" labelPlacement="floating" placeholder="ejemplo@duocuc.cl">
           <div slot="label">
             <ion-text class="texto">Email</ion-text>
           </div>
@@ -69,6 +69,7 @@
   <br>
   <ion-button style="margin: 10px;" expand="block" class="botones" color="amarillo-duoc" (click)="registrarUsuario()" type="submit"><b>Registrar</b></ion-button>
   <ion-button style="margin: 10px;" expand="block" class="botones" color="amarillo-duoc" (click)="animarLimpiar()"><b>Limpiar</b></ion-button>
+  <ion-button style="margin: 10px;" expand="block" class="botones" color="amarillo-duoc" [routerLink]="['/login']"><b>Volver</b></ion-button>
   <br>
   <img src="assets/footer.png" id="iconoAppId">
 </ion-content>

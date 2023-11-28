@@ -1,11 +1,10 @@
-
 import { Component, OnInit } from '@angular/core';
 import { Animation, AnimationController } from '@ionic/angular';
-import { Router, NavigationExtras } from '@angular/router';
+import { Router } from '@angular/router';
 import { RegistrarUsuarioService } from '../servicios/registrar-usuario.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AlertController} from '@ionic/angular'; 
-import { Asignatura } from '../app.model';
+
 
 @Component({
   selector: 'app-registrouser',
@@ -14,7 +13,7 @@ import { Asignatura } from '../app.model';
 })
 export class RegistrouserPage implements OnInit {
   rut: number = 0;
-  dvrut : string = "";
+  dvrut : string = '';
   email: string = '';
   contrasena: string = '';
   pnombre: string = '';
@@ -70,6 +69,7 @@ export class RegistrouserPage implements OnInit {
         message: 'Usuario registrado correctamente.',
         buttons: ['Aceptar'],
       });
+      this.router.navigate(['/login']);
     })
     .catch((error) => {
       console.error('Error al registrar usuario:', error);

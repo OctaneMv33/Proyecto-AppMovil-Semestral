@@ -8,28 +8,23 @@
 
 <ion-content [fullscreen]="true">
   <div class="centrado-de-items">
-    <ion-button class="botones" color="amarillo-duoc" (click)="home()" style="margin-right: 10px">
+    <ion-button class="botones" color="amarillo-duoc" [routerLink]="['/home']" style="margin-right: 10px">
       <b>Volver a Menú</b>
     </ion-button>
-    <ion-button class="botones" color="amarillo-duoc" type="submit" style="margin-left: 10px"> <!--(click)="obtenerDatos()"-->
-      <b>Obtener Datos</b>
-    </ion-button>
-
-    
   
   </div>
   <ion-grid>
     <ion-row class="header-row">
       <ion-col class="ion-text-center" size="4"><b>Asignatura</b></ion-col>
-      <ion-col class="ion-text-center" size="4"><b>Sección</b></ion-col>
       <ion-col class="ion-text-center" size="4"><b>Fecha</b></ion-col>
+      <ion-col class="ion-text-center" size="4"><b>Estado</b></ion-col>
     </ion-row>
-    <!--
-      <ion-row class="data-row" *ngFor="let asistencia of datosAsistenciaFiltrados">
+
+    <ion-row class="data-row" *ngFor="let asistencia of datosAsistenciaFiltrados">
       <ion-col class="ion-text-center" size="4">{{ asistencia.asignatura }}</ion-col>
-      <ion-col class="ion-text-center" size="4">{{ asistencia.seccion }}</ion-col>
       <ion-col class="ion-text-center" size="4">{{ asistencia.fecha }}</ion-col>
+      <ion-col class="ion-text-center" size="4">{{ asistencia.estado }}</ion-col>
     </ion-row>
-    -->
+    
   </ion-grid>
 </ion-content>

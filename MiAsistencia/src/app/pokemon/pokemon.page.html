@@ -6,7 +6,7 @@
 
 <ion-content [fullscreen]="true">
   <ion-row class="ion-justify-content-center" style="margin-top: 20px;">
-    <ion-button (click)="getPosts()">Generar Otro Pokemón</ion-button>
+    <ion-button (click)="generarPokemon()">Generar Otro Pokemón</ion-button>
   </ion-row>
 
   <div class="posts" *ngIf="characterData">
@@ -23,11 +23,10 @@
         {{ characterData.types['1'].type['name'] | titlecase}}
       </ng-container>
     </h2>
-    <!-- Muestra otros datos del personaje aquí -->
   </div>
 
   <ion-row class="ion-justify-content-center" style="margin-top: 20px;">
-    <ion-button (click)="home()">Volver</ion-button>
+    <ion-button [routerLink]="['/home']">Volver</ion-button>
   </ion-row>
 
 

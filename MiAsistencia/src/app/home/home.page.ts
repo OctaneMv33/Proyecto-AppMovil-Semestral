@@ -4,7 +4,7 @@ import { Animation, AnimationController } from '@ionic/angular';
 import { UsuariosService } from '../servicios/usuarios.service';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 import { RegistroAsistenciaService } from '../servicios/registro-asistencia.service';
-import { Asignatura, Asistencia } from '../app.model';
+import { Asignatura, AsignaturaSinClases, Asistencia } from '../app.model';
 import { Firestore, collection, doc, getDocs, getFirestore, query, where } from '@angular/fire/firestore';
 import { Estudiante } from '../app.model';
 import { Auth } from '@angular/fire/auth';
@@ -18,6 +18,7 @@ import { Clase } from '../app.model';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit, OnDestroy {
+
   dato: string | null = null;
   usuario: Estudiante | null = null;
   nombre: string | null = "";
@@ -28,7 +29,8 @@ export class HomePage implements OnInit, OnDestroy {
   asignatura: Asignatura | null = null;
   clase: Clase[] | undefined;
   sameFecha: Boolean = false;
-
+  sameAsignatura: Boolean = false;
+  asignaturasEstudiante: AsignaturaSinClases[] | null = null;
 
   constructor(private renderer: Renderer2, private animationCtrl: AnimationController, private router: Router,
     private usuarioServicio: UsuariosService, private obtenerAsignatura: ObtenerAsignaturaService, private auth: Auth, private firestore: Firestore, private RegistroAsistenciaService: RegistroAsistenciaService) {
@@ -67,18 +69,6 @@ export class HomePage implements OnInit, OnDestroy {
 
   //Este método deberá activar la cámara cuando toque aplicar el plugin, por ahora enviará el username al qr-scan page, para luego devolverse en caso de ser necesario.
 
-  registrarAsistencia() {
-    this.router.navigate(['/formulario']);
-  }
-
-  verAsistencia() {
-    this.router.navigate(['/ver-asistencia']);
-  }
-
-  pokemon() {
-    this.router.navigate(['/pokemon']);
-  }
-
   salir() {
     this.usuarioServicio.logout()
       .then(response => {
@@ -100,6 +90,7 @@ export class HomePage implements OnInit, OnDestroy {
         if (estudiante) {
           this.nombre = estudiante.pnombre + " " + estudiante.appaterno
           this.run = estudiante.rut + "-" + estudiante.dvrut
+          this.asignaturasEstudiante = estudiante.asignaturas
         }
       });
     }
@@ -119,7 +110,6 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   async escanearQR() {
-    const fecha = new Date();
     //let barcodeData = "rutAl,fecha,asignaturaAl,estado";
     try {
       const permiso = await this.checkPermission();
@@ -150,6 +140,13 @@ export class HomePage implements OnInit, OnDestroy {
         const palabras = resultado.content.split(','); //SEPARADOR LISTA QR EN "," Asignatura,sección,fecha,horaini,horafin.
         const sigla = palabras[0]
         const seccion = palabras[1]
+        if(this.asignaturasEstudiante){
+          for(let i = 0; i < this.asignaturasEstudiante.length; i++){
+            if(sigla == this.asignaturasEstudiante[i].sigla && seccion == this.asignaturasEstudiante[i].seccion){
+              this.sameAsignatura = true;
+            }
+          }
+        }
         this.obtenerAsignatura.obtenerDetallesAsignatura(sigla, seccion).subscribe((data) => {
           if (data) {
             this.asignatura = data
@@ -165,7 +162,8 @@ export class HomePage implements OnInit, OnDestroy {
               //Datos Estudiante 
               this.idUsuario = this.auth.currentUser?.uid;
               //Si es que existe el estudiante, ingresa los datos a la dbb.
-              if (this.sameFecha) {
+              if (this.sameFecha && this.sameAsignatura) {
+                this.usuarioServicio.presentToast("Asistencia Registrada");
                 this.usuarioServicio.datosEstudiante(this.idUsuario).subscribe((estudiante) => {
                   if (estudiante) {
                     this.nombre = estudiante.pnombre + " " + estudiante.appaterno
@@ -178,6 +176,8 @@ export class HomePage implements OnInit, OnDestroy {
                     const response = this.RegistroAsistenciaService.AddAsistencia(nuevaAsistencia);
                   }
                 });
+              } else {
+                this.usuarioServicio.presentToast("El ramo que intentas inscribir no lo tienes asignado");
               }
             }
           }

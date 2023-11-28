@@ -20,43 +20,38 @@
   <div class="saludo">
     <ion-title class="ion-text-center texto">
       <h1>Bienvenido!</h1> 
-        <h3><b>{{nombre}}</b></h3><!--Aquí toca esperar a que los pibes hagan el formulario, para poner la variable en reemplazo del texto--> 
+        <h3><b>{{nombre}}</b></h3>
     </ion-title>
   </div>
   <div class="contenido">
-    <!--El botón activa la cámara y la función QR ('05/09/2023': Agregué la funcionalidad de routerLink, ya que el profe dijo que teníamos que redirigir
-      del Home a una pestaña que simule el escaneo de QR)-->
     <ion-grid > 
       <ion-row class="ion-justify-content-center">
         <ion-button (click)="escanearQR()" class="botones largo" color="amarillo-duoc" style="margin-top: 15px;">
           <ion-icon name="enter-outline" class="margen-der"></ion-icon>
           <b>Registrar Asistencia</b>
         </ion-button>
-        
-        
-      </ion-row>
-
-      <ion-row class="ion-justify-content-center">
-        <ion-button (click)="registrarAsistencia()" class="botones largo" color="amarillo-duoc" style="margin-top: 15px;" >
-          <ion-icon name="enter-outline" class="margen-der"></ion-icon>
-          <b>Formulario Asistencia</b>
-        </ion-button>
-        
       </ion-row>
       <ion-row class="ion-justify-content-center">
-        <ion-button (click)="verAsistencia()" class="botones largo" color="amarillo-duoc" style="margin-top: 15px;">
+        <ion-button [routerLink]="['/ver-asistencia']"  class="botones largo" color="amarillo-duoc" style="margin-top: 15px;">
           <ion-icon name="enter-outline" class="margen-der"></ion-icon>
           <b>Ver Asistencias</b>
         </ion-button>
       </ion-row>
       <ion-row class="ion-justify-content-center">
-        <ion-button (click)="pokemon()" class="botones largo" color="amarillo-duoc" style="margin-top: 15px;">
+        <ion-button [routerLink]="['/pokemon']" class="botones largo" color="amarillo-duoc" style="margin-top: 15px;">
           <ion-icon name="enter-outline" class="margen-der"></ion-icon>
           <b>Pokemón Sorpresa</b>
         </ion-button>
       </ion-row>
     </ion-grid>
   </div>
+
+  <ion-row class="ion-justify-content-center">
+    <ion-button class="botonPararEscaner" color="amarillo-duoc" (click)="stopScan()">
+      <ion-icon name="stop-circle-outline" class="margen-der"></ion-icon>
+      <b>Parar Escaneo</b>
+      </ion-button>
+  </ion-row>  
 
   <div class="imagen">
     <img src="../../assets/icon/homefondo.png" alt="">

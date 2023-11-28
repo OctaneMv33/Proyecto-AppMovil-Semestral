@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { VerAsistenciaService } from '../servicios/ver-asistencia.service';
 import { Asistencia } from '../app.model';
-import { Router } from '@angular/router';
+import { UsuariosService } from '../servicios/usuarios.service';
 import { Animation, AnimationController } from '@ionic/angular';
 import { Auth } from '@angular/fire/auth';
 
@@ -12,61 +12,16 @@ import { Auth } from '@angular/fire/auth';
 })
 export class VerAsistenciaPage implements OnInit {
 
-  datosAsistencia: Asistencia[] = [];
-  datosAsistenciaFiltrados: Asistencia[] = [];
- 
-  
+  datosAsistenciaFiltrados: Asistencia[] | null = null;
+  idUsuario: string | undefined = "";
+  run: string = "";
 
   constructor(
     private verAsistenciaService: VerAsistenciaService,
-    private router: Router,
     private animationCtrl: AnimationController,
-    private auth: Auth
+    private auth: Auth,
+    private usuarioServicio: UsuariosService
   ) { }
-
-  /*
-  obtenerDatos() {
-    this.verAsistenciaService.obtenerAsistencia().subscribe(datos => {
-      this.datosAsistencia = datos.map(e => {
-        return {
-          asignatura: e.payload.doc.id,
-          ...e.payload.doc.data() as {}
-        } as Asistencia;
-      });
-
-      if (this.auth) {
-        const usuarioActual = this.auth.currentUser?.email;
-
-        this.datosAsistenciaFiltrados = this.datosAsistencia.filter(asistencia => {
-          return usuarioActual === asistencia.correo;
-        });
-      } else {
-        this.datosAsistenciaFiltrados = [];
-      }
-    });
-  }*/
-  /*
-  obtenerDatos() {
-    this.verAsistenciaService.obtenerAsistencia().subscribe(datos => {
-      this.datosAsistencia = datos.map( e => {
-        return{
-          asignatura: e.payload.doc.id,
-          ... e.payload.doc.data() as {}
-
-        } as Asistencia;
-      })
-      if(this.auth){
-        const usuarioActual = this.auth.currentUser?.email
-
-        const datosFiltrados = this.datosAsistencia.filter(asistencia =>{
-          return usuarioActual === asistencia.correo
-        })
-        return datosFiltrados
-      } else {
-        return [];
-      }
-    });
-  }*/
 
   async animarTitulo() {
     const animation: Animation = this.animationCtrl.create()
@@ -82,17 +37,21 @@ export class VerAsistenciaPage implements OnInit {
     await animation.play()
   }
 
-  
-  
-
-  home() {
-    // Puedes agregar lógica aquí para navegar a la página de inicio si es necesario
-    console.log('Navegando a la página de inicio...');
-  }
-
   ngOnInit() {
-    // Este método se llama automáticamente cuando la página se inicializa
-    // Puedes realizar inicializaciones o lógica aquí si es necesario
+    if(this.auth){
+      this.idUsuario = this.auth.currentUser?.uid;
+    }
+    if(this.idUsuario) {
+      this.usuarioServicio.datosEstudiante(this.idUsuario).subscribe((estudiante) => {
+        if (estudiante) {
+          this.run = estudiante.rut + "-" + estudiante.dvrut
+        }
+        this.verAsistenciaService.obtenerAsistencia(this.run).subscribe((asistencia) => {
+          if (asistencia){
+            this.datosAsistenciaFiltrados = asistencia
+          }
+        }); 
+      });
+    }
   }
-
 }
