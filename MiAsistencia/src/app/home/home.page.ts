@@ -10,6 +10,7 @@ import { Estudiante } from '../app.model';
 import { Auth } from '@angular/fire/auth';
 import { ObtenerAsignaturaService } from '../servicios/obtener-asignatura.service';
 import { Clase } from '../app.model';
+import { catchError } from 'rxjs';
 
 
 @Component({
@@ -144,9 +145,15 @@ export class HomePage implements OnInit, OnDestroy {
           for(let i = 0; i < this.asignaturasEstudiante.length; i++){
             if(sigla == this.asignaturasEstudiante[i].sigla && seccion == this.asignaturasEstudiante[i].seccion){
               this.sameAsignatura = true;
-            }
+            } 
           }
         }
+
+        if(this.sameAsignatura == false){
+          this.usuarioServicio.presentToast("El ramo que intentas inscribir la asistencia no lo tienes asignado o La fecha que intentas inscribir no existe en tu ramo.");
+          this.stopScan();
+        }
+
         this.obtenerAsignatura.obtenerDetallesAsignatura(sigla, seccion).subscribe((data) => {
           if (data) {
             this.asignatura = data
@@ -159,11 +166,18 @@ export class HomePage implements OnInit, OnDestroy {
                   this.sameFecha = true;
                 }
               }
+              if (this.sameFecha == false) {
+                this.usuarioServicio.presentToast("El ramo que intentas inscribir la asistencia no lo tienes asignado o La fecha que intentas inscribir no existe en tu ramo.");
+                this.stopScan();
+              } else if (this.sameFecha == false && this.sameAsignatura == false) {
+                this.usuarioServicio.presentToast("El ramo que intentas inscribir la asistencia no lo tienes asignado o La fecha que intentas inscribir no existe en tu ramo.");
+              }
               //Datos Estudiante 
               this.idUsuario = this.auth.currentUser?.uid;
               //Si es que existe el estudiante, ingresa los datos a la dbb.
+              console.log(this.sameAsignatura)
+              console.log(this.sameFecha)
               if (this.sameFecha && this.sameAsignatura) {
-                this.usuarioServicio.presentToast("Asistencia Registrada");
                 this.usuarioServicio.datosEstudiante(this.idUsuario).subscribe((estudiante) => {
                   if (estudiante) {
                     this.nombre = estudiante.pnombre + " " + estudiante.appaterno
@@ -174,15 +188,15 @@ export class HomePage implements OnInit, OnDestroy {
                       estado: 'Presente'
                     };
                     const response = this.RegistroAsistenciaService.AddAsistencia(nuevaAsistencia);
+                    this.usuarioServicio.presentToast("Asistencia Registrada");
                   }
                 });
               } else {
-                this.usuarioServicio.presentToast("El ramo que intentas inscribir no lo tienes asignado");
+                console.log("No resultó la cosa")
               }
             }
           }
         });
-
         //Datos obtenidos QR
         console.log(palabras[1]); // IMPRIME SEGUNDA PALABRA
         console.log("resultadoEscaneo3");
@@ -190,6 +204,7 @@ export class HomePage implements OnInit, OnDestroy {
       }
     } catch (e) {
       console.log(e);
+      this.usuarioServicio.presentToast("El QR escaneado no corresponde para registrar asistencias.");
       this.stopScan();
     }
   }

@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Firestore, collection, getDocs, query, where } from '@angular/fire/firestore';
+import { Firestore, collection, getDocs, query, where, orderBy } from '@angular/fire/firestore';
 import { Asistencia } from '../app.model';
 
 @Injectable({
@@ -13,7 +13,7 @@ export class VerAsistenciaService {
   
   obtenerAsistencia(rut: string): Observable<Asistencia[]> {
     const asistenciasCollection = collection(this.firestore, 'asistencias');
-    const asistenciaQuery = query(asistenciasCollection, where('rut', '==', rut));
+    const asistenciaQuery = query(asistenciasCollection, where('rut', '==', rut), orderBy('fecha', 'asc'));
 
     return new Observable<Asistencia[]>(observer => {
       getDocs(asistenciaQuery).then(snapshot => {
