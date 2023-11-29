@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { Estudiante } from '../app.model';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +23,24 @@ export class RegistrarUsuarioService {
     console.error('Error al registrar usuario:', error);
     throw error;
 
-  };
+  }
 }
+
+  validarRut(rut:string): Observable<boolean>{
+    return this.firestore.collection('estudiantes', (ref) => ref.where('rut','==',rut))
+    .get().pipe(map((querySnapshot) => { 
+      return querySnapshot.size > 0;
+    }));
+  }
+
+  validarEmailRegistrado(email: string): Observable<boolean> {
+    return this.firestore.collection('estudiantes', (ref) => ref.where('email', '==', email))
+      .get().pipe(map((querySnapshot) => {
+        return querySnapshot.size > 0;
+      }));
+  }
+
+
 }
 
 
