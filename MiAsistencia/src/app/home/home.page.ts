@@ -111,6 +111,8 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   async escanearQR() {
+    this.sameAsignatura = false;
+    this.sameFecha = false;
     //let barcodeData = "rutAl,fecha,asignaturaAl,estado";
     try {
       const permiso = await this.checkPermission();
