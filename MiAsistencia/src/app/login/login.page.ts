@@ -79,7 +79,9 @@ export class LoginPage implements OnInit {
           this.router.navigate(['/home']);
           this.usuarioServicio.presentToast('Ingreso exitoso'); // Muestra un mensaje de éxito
         })
-        .catch(error => console.log(error));
+        .catch(error => 
+          this.usuarioServicio.presentToast('Error: Usuario o Contraseña inválidos. Ingresar credenciales válidas.') // Muestra un mensaje de error
+        );
     } else {
       this.usuarioServicio.presentToast('Error: el formato del correo electrónico no es válido'); // Muestra un mensaje de error
     }
