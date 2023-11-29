@@ -135,9 +135,14 @@ export class RegistrouserPage implements OnInit {
     }
 
     const resto = suma % 11;
-    const dvCalculado = 11 - resto === 11 ? 0 : 11 - resto;
+    const dvCalculado = 11 - resto;
 
-    return dvCalculado.toString() === dvrut.toUpperCase();
+    // Validar "K" y "0" como dígitos verificadores válidos
+    const dvValido = (dvCalculado === 10 && dvrut.toUpperCase() === 'K') ||
+      (dvCalculado === 11 && dvrut === '0') ||
+      (dvCalculado < 10 && dvCalculado.toString() === dvrut);
+
+    return dvValido;
   }
 
   validarEmailRegistrado(email: string) {
@@ -170,7 +175,7 @@ export class RegistrouserPage implements OnInit {
 
   validarLongitudContrasena(contrasena: string) {
     this.contrasenaError = '';
-  
+
     if (contrasena.length < 6) {
       this.contrasenaError = 'La contraseña debe tener al menos 6 caracteres.';
       this.formRegistro.get('contrasena')?.setErrors({ 'longitudContrasena': true });
@@ -186,7 +191,7 @@ export class RegistrouserPage implements OnInit {
 
   validarNombre(nombre: string) {
     this.pnombreError = '';
-  
+
     if (nombre.length < 3) {
       this.pnombreError = 'El nombre debe tener al menos 3 caracteres.';
       this.formRegistro.get('pnombre')?.setErrors({ 'longitudNombre': true });
@@ -197,7 +202,7 @@ export class RegistrouserPage implements OnInit {
       // Si cumple con la longitud, limpiar el mensaje y los errores
       this.pnombreError = '';
       this.formRegistro.get('pnombre')?.setErrors(null);
-  
+
       // Verificar que no contenga números
       const contieneNumeros = /\d/.test(nombre);
       if (contieneNumeros) {
@@ -209,7 +214,7 @@ export class RegistrouserPage implements OnInit {
 
   validarApellidoPaterno(apellidoPaterno: string) {
     this.appaternoError = '';
-  
+
     if (apellidoPaterno.length < 3) {
       this.appaternoError = 'El apellido paterno debe tener al menos 3 caracteres.';
       this.formRegistro.get('appaterno')?.setErrors({ 'longitudApellidoPaterno': true });
@@ -220,7 +225,7 @@ export class RegistrouserPage implements OnInit {
       // Si cumple con la longitud, limpiar el mensaje y los errores
       this.appaternoError = '';
       this.formRegistro.get('appaterno')?.setErrors(null);
-  
+
       // Verificar que no contenga números
       const contieneNumeros = /\d/.test(apellidoPaterno);
       if (contieneNumeros) {
@@ -261,7 +266,7 @@ export class RegistrouserPage implements OnInit {
       });
     }
 
-    if (contrasenaObservable){
+    if (contrasenaObservable) {
       contrasenaObservable.subscribe((contrasena) => {
         this.validarLongitudContrasena(contrasena);
       })
@@ -291,6 +296,19 @@ export class RegistrouserPage implements OnInit {
   }
 
   registrarUsuario(): void {
+    const dvrut = this.formRegistro.get('dvrut')?.value.toUpperCase();
+    const nombre = this.formRegistro.get('pnombre')?.value;
+    const appaterno = this.formRegistro.get('appaterno')?.value;
+
+    // Convertir la primera letra a mayúscula
+    const nombreCapitalizado = nombre.charAt(0).toUpperCase() + nombre.slice(1).toLowerCase();
+    const appaternoCapitalizado = appaterno.charAt(0).toUpperCase() + appaterno.slice(1).toLowerCase();
+
+    // Asignar valores convertidos de vuelta al formulario
+    this.formRegistro.get('dvrut')?.setValue(dvrut);
+    this.formRegistro.get('pnombre')?.setValue(nombreCapitalizado);
+    this.formRegistro.get('appaterno')?.setValue(appaternoCapitalizado);
+
     // Verifica si el registro es válido antes de proceder
     if (this.esRegistroValido()) {
       this.registrarEstudiante.RegistroEstudiante(this.formRegistro.value)
