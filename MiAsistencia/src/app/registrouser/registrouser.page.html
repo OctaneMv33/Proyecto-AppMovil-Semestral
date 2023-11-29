@@ -64,29 +64,29 @@
         <ion-item *ngIf="rutError">
           <ion-label color="danger">{{ rutError }}</ion-label>
         </ion-item>
-      
+
         <ion-item *ngIf="dvrutError">
           <ion-label color="danger">{{ dvrutError }}</ion-label>
         </ion-item>
-      
+
         <ion-item *ngIf="emailError">
           <ion-label color="danger">{{ emailError }}</ion-label>
         </ion-item>
-      
+
         <ion-item *ngIf="contrasenaError">
           <ion-label color="danger">{{ contrasenaError }}</ion-label>
         </ion-item>
-      
+
         <ion-item *ngIf="pnombreError">
           <ion-label color="danger">{{ pnombreError }}</ion-label>
         </ion-item>
-      
+
         <ion-item *ngIf="appaternoError">
           <ion-label color="danger">{{ appaternoError }}</ion-label>
         </ion-item>
       </ion-list>
 
-     
+
 
     </form>
   </ion-list>
@@ -96,11 +96,15 @@
 
   <br>
   <ion-button style="margin: 10px;" expand="block" class="botones" color="amarillo-duoc" (click)="registrarUsuario()"
-    type="submit"><b>Registrar</b></ion-button>
-  <ion-button style="margin: 10px;" expand="block" class="botones" color="amarillo-duoc"
-    (click)="animarLimpiar()"><b>Limpiar</b></ion-button>
-  <ion-button style="margin: 10px;" expand="block" class="botones" color="amarillo-duoc"
-    [routerLink]="['/login']"><b>Volver</b></ion-button>
-  <br>
-  <img src="assets/footer.png" id="iconoAppId">
+    type="submit" [disabled]="!formRegistro.valid">
+    <b>Registrar</b>
+  </ion-button>
+
+  <ion-button style="margin: 10px;" expand="block" class="botones" color="amarillo-duoc" (click)="animarLimpiar()">
+    <b>Limpiar</b>
+  </ion-button>
+
+  <ion-button style="margin: 10px;" expand="block" class="botones" color="amarillo-duoc" [routerLink]="['/login']">
+    <b>Volver</b>
+  </ion-button>
 </ion-content>

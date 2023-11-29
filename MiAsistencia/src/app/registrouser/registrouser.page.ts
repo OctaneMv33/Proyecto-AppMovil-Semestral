@@ -34,12 +34,12 @@ export class RegistrouserPage implements OnInit {
     private alertController: AlertController
   ) {
     this.formRegistro = new FormGroup({
-      rut: new FormControl(''),
-      dvrut: new FormControl(''),
-      email: new FormControl(''),
-      contrasena: new FormControl(''),
-      pnombre: new FormControl(''),
-      appaterno: new FormControl(''),
+      rut: new FormControl('', [Validators.required]),
+      dvrut: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      contrasena: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]),
+      pnombre: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(20), Validators.pattern(/^[a-zA-Z]+$/)]),
+      appaterno: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(20), Validators.pattern(/^[a-zA-Z]+$/)]),
     });
 
   }
@@ -67,22 +67,40 @@ export class RegistrouserPage implements OnInit {
 
   }
 
-    validarRutExistente(rut: string, dvrut: string) {
-      this.resetErrors();
-  
-      const esRutValido = this.validarDVRut(rut, dvrut);
-  
-      if (!esRutValido) {
-        this.dvrutError = 'DvRut incorrecto.';
-        return;
-      }
-  
-      this.registrarEstudiante.validarRut(rut).subscribe((existe: boolean) => {
-        if (existe) {
-          this.rutError = 'El rut ingresado ya está registrado.';
-        }
-      });
+  validarRutExistente(rut: string, dvrut: string) {
+    this.dvrutError = '';
+
+    this.validarRutFormato(rut);
+
+    const esRutValido = this.validarDVRut(rut, dvrut);
+
+    if (!esRutValido) {
+      this.dvrutError = 'DvRut incorrecto.';
+      return;
     }
+
+    this.registrarEstudiante.validarRut(rut).subscribe((existe: boolean) => {
+      if (existe) {
+        this.rutError = 'El rut ingresado ya está registrado.';
+      }
+    });
+  }
+
+  validarRutFormato(rut: string) {
+    this.rutError = '';
+
+    // Expresión regular para verificar que el rut no contenga letras
+    const contieneLetras = /[a-zA-Z]/.test(rut);
+
+    if (contieneLetras) {
+      this.rutError = 'El Rut no puede contener letras.';
+      this.formRegistro.get('rut')?.setErrors({ 'formatoRut': true });
+    } else {
+      // Si cumple con el formato, limpiar el mensaje y los errores
+      this.rutError = '';
+      this.formRegistro.get('rut')?.setErrors(null);
+    }
+  }
 
   calcularDVRut(rutNumerico: number): string {
     let suma = 0;
@@ -117,9 +135,14 @@ export class RegistrouserPage implements OnInit {
     }
 
     const resto = suma % 11;
-    const dvCalculado = 11 - resto === 11 ? 0 : 11 - resto;
+    const dvCalculado = 11 - resto;
 
-    return dvCalculado.toString() === dvrut.toUpperCase();
+    // Validar "K" y "0" como dígitos verificadores válidos
+    const dvValido = (dvCalculado === 10 && dvrut.toUpperCase() === 'K') ||
+      (dvCalculado === 11 && dvrut === '0') ||
+      (dvCalculado < 10 && dvCalculado.toString() === dvrut);
+
+    return dvValido;
   }
 
   validarEmailRegistrado(email: string) {
@@ -150,11 +173,85 @@ export class RegistrouserPage implements OnInit {
     }
   }
 
+  validarLongitudContrasena(contrasena: string) {
+    this.contrasenaError = '';
+
+    if (contrasena.length < 6) {
+      this.contrasenaError = 'La contraseña debe tener al menos 6 caracteres.';
+      this.formRegistro.get('contrasena')?.setErrors({ 'longitudContrasena': true });
+    } else if (contrasena.length > 20) {
+      this.contrasenaError = 'La contraseña no puede tener más de 20 caracteres.';
+      this.formRegistro.get('contrasena')?.setErrors({ 'longitudContrasena': true });
+    } else {
+      // Si cumple con la longitud, limpiar el mensaje y los errores
+      this.contrasenaError = '';
+      this.formRegistro.get('contrasena')?.setErrors(null);
+    }
+  }
+
+  validarNombre(nombre: string) {
+    this.pnombreError = '';
+
+    if (nombre.length < 3) {
+      this.pnombreError = 'El nombre debe tener al menos 3 caracteres.';
+      this.formRegistro.get('pnombre')?.setErrors({ 'longitudNombre': true });
+    } else if (nombre.length > 20) {
+      this.pnombreError = 'El nombre no puede tener más de 20 caracteres.';
+      this.formRegistro.get('pnombre')?.setErrors({ 'longitudNombre': true });
+    } else {
+      // Si cumple con la longitud, limpiar el mensaje y los errores
+      this.pnombreError = '';
+      this.formRegistro.get('pnombre')?.setErrors(null);
+
+      // Verificar que no contenga números
+      const contieneNumeros = /\d/.test(nombre);
+      if (contieneNumeros) {
+        this.pnombreError = 'El nombre no puede contener números.';
+        this.formRegistro.get('pnombre')?.setErrors({ 'formatoNombre': true });
+      }
+    }
+  }
+
+  validarApellidoPaterno(apellidoPaterno: string) {
+    this.appaternoError = '';
+
+    if (apellidoPaterno.length < 3) {
+      this.appaternoError = 'El apellido paterno debe tener al menos 3 caracteres.';
+      this.formRegistro.get('appaterno')?.setErrors({ 'longitudApellidoPaterno': true });
+    } else if (apellidoPaterno.length > 20) {
+      this.appaternoError = 'El apellido paterno no puede tener más de 20 caracteres.';
+      this.formRegistro.get('appaterno')?.setErrors({ 'longitudApellidoPaterno': true });
+    } else {
+      // Si cumple con la longitud, limpiar el mensaje y los errores
+      this.appaternoError = '';
+      this.formRegistro.get('appaterno')?.setErrors(null);
+
+      // Verificar que no contenga números
+      const contieneNumeros = /\d/.test(apellidoPaterno);
+      if (contieneNumeros) {
+        this.appaternoError = 'El apellido paterno no puede contener números.';
+        this.formRegistro.get('appaterno')?.setErrors({ 'formatoApellidoPaterno': true });
+      }
+    }
+  }
+
+  esRegistroValido(): boolean {
+    // Comprueba si el formulario es válido
+    if (this.formRegistro.valid) {
+      // Puedes agregar condiciones adicionales aquí si es necesario
+      return true;
+    }
+    return false;
+  }
+
 
   ngOnInit() {
     const rutObservable = this.formRegistro.get('rut')?.valueChanges;
     const dvrutObservable = this.formRegistro.get('dvrut')?.valueChanges;
     const emailObservable = this.formRegistro.get('email')?.valueChanges;
+    const contrasenaObservable = this.formRegistro.get('contrasena')?.valueChanges;
+    const nombreObservable = this.formRegistro.get('pnombre')?.valueChanges;
+    const appaternoObservable = this.formRegistro.get('appaterno')?.valueChanges;
 
     if (rutObservable && dvrutObservable) {
       combineLatest([rutObservable, dvrutObservable]).subscribe(([rut, dvrut]) => {
@@ -168,6 +265,25 @@ export class RegistrouserPage implements OnInit {
         this.validarFormatoEmail(email);
       });
     }
+
+    if (contrasenaObservable) {
+      contrasenaObservable.subscribe((contrasena) => {
+        this.validarLongitudContrasena(contrasena);
+      })
+    }
+
+    if (nombreObservable) {
+      nombreObservable.subscribe((nombre) => {
+        this.validarNombre(nombre);
+      });
+    }
+
+    if (appaternoObservable) {
+      appaternoObservable.subscribe((apellido) => {
+        this.validarApellidoPaterno(apellido);
+      });
+    }
+
   }
 
   resetErrors() {
@@ -180,19 +296,34 @@ export class RegistrouserPage implements OnInit {
   }
 
   registrarUsuario(): void {
-    this.registrarEstudiante.RegistroEstudiante(this.formRegistro.value)
-      .then(() => {
-        const alert = this.alertController.create({
-          header: 'Registro Exitoso',
-          message: 'Usuario registrado correctamente.',
-          buttons: ['Aceptar'],
-        });
-        this.router.navigate(['/login']);
-      })
-      .catch((error) => {
-        console.error('Error al registrar usuario:', error);
-      });
+    const dvrut = this.formRegistro.get('dvrut')?.value.toUpperCase();
+    const nombre = this.formRegistro.get('pnombre')?.value;
+    const appaterno = this.formRegistro.get('appaterno')?.value;
 
+    // Convertir la primera letra a mayúscula
+    const nombreCapitalizado = nombre.charAt(0).toUpperCase() + nombre.slice(1).toLowerCase();
+    const appaternoCapitalizado = appaterno.charAt(0).toUpperCase() + appaterno.slice(1).toLowerCase();
+
+    // Asignar valores convertidos de vuelta al formulario
+    this.formRegistro.get('dvrut')?.setValue(dvrut);
+    this.formRegistro.get('pnombre')?.setValue(nombreCapitalizado);
+    this.formRegistro.get('appaterno')?.setValue(appaternoCapitalizado);
+
+    // Verifica si el registro es válido antes de proceder
+    if (this.esRegistroValido()) {
+      this.registrarEstudiante.RegistroEstudiante(this.formRegistro.value)
+        .then(() => {
+          const alert = this.alertController.create({
+            header: 'Registro Exitoso',
+            message: 'Usuario registrado correctamente.',
+            buttons: ['Aceptar'],
+          });
+          this.router.navigate(['/login']);
+        })
+        .catch((error) => {
+          console.error('Error al registrar usuario:', error);
+        });
+    }
   }
 
 
