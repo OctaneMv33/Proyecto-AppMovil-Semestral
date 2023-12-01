@@ -23,8 +23,8 @@ export class RegistrarUsuarioService {
     console.error('Error al registrar usuario:', error);
     throw error;
 
+    }
   }
-}
 
   validarRut(rut:string): Observable<boolean>{
     return this.firestore.collection('estudiantes', (ref) => ref.where('rut','==',rut))

@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'MA1.0',
+  appId: 'com.DuocUC.MiAsistencia',
   appName: 'MiAsistencia',
   webDir: 'www',
   server: {
