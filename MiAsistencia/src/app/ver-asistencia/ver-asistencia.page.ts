@@ -12,6 +12,7 @@ import { Auth } from '@angular/fire/auth';
 })
 export class VerAsistenciaPage implements OnInit {
 
+  banderaSinAsistencias: number = 0;
   datosAsistenciaFiltrados: Asistencia[] | null = null;
   idUsuario: string | undefined = "";
   run: string = "";
@@ -38,6 +39,7 @@ export class VerAsistenciaPage implements OnInit {
   }
 
   ngOnInit() {
+    this.banderaSinAsistencias = 0;
     if(this.auth){
       this.idUsuario = this.auth.currentUser?.uid;
     }
@@ -48,10 +50,15 @@ export class VerAsistenciaPage implements OnInit {
         }
         this.verAsistenciaService.obtenerAsistencia(this.run).subscribe((asistencia) => {
           if (asistencia){
+            this.banderaSinAsistencias = 1;
             this.datosAsistenciaFiltrados = asistencia
+          } else {
+            this.banderaSinAsistencias = 0;
           }
         }); 
       });
     }
   }
+
+
 }

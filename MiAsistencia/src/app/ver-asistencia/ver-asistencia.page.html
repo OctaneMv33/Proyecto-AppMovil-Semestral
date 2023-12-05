@@ -20,11 +20,17 @@
       <ion-col class="ion-text-center" size="4"><b>Estado</b></ion-col>
     </ion-row>
 
-    <ion-row class="data-row" *ngFor="let asistencia of datosAsistenciaFiltrados">
-      <ion-col class="ion-text-center" size="4">{{ asistencia.asignatura }}</ion-col>
-      <ion-col class="ion-text-center" size="4">{{ asistencia.fecha }}</ion-col>
-      <ion-col class="ion-text-center" size="4">{{ asistencia.estado }}</ion-col>
-    </ion-row>
+    <ng-template #noAsistencias>
+      <p class="ion-text-center">No hay asistencias</p>
+    </ng-template>
+
+    <div *ngIf="datosAsistenciaFiltrados; else noAsistencias">
+      <ion-row class="data-row" *ngFor="let asistencia of datosAsistenciaFiltrados">
+        <ion-col class="ion-text-center" size="4">{{ asistencia.asignatura }}</ion-col>
+        <ion-col class="ion-text-center" size="4">{{ asistencia.fecha }}</ion-col>
+        <ion-col class="ion-text-center" size="4">{{ asistencia.estado }}</ion-col>
+      </ion-row>
+    </div>
     
   </ion-grid>
 </ion-content>

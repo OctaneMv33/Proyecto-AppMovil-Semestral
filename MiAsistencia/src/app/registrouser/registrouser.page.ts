@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Animation, AnimationController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { RegistrarUsuarioService } from '../servicios/registrar-usuario.service';
+import { UsuariosService } from '../servicios/usuarios.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AlertController } from '@ionic/angular';
 import { combineLatest } from 'rxjs';
@@ -31,7 +32,8 @@ export class RegistrouserPage implements OnInit {
     private animationCtrl: AnimationController,
     private router: Router,
     private registrarEstudiante: RegistrarUsuarioService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private usuariosService: UsuariosService
   ) {
     this.formRegistro = new FormGroup({
       rut: new FormControl('', [Validators.required]),
@@ -318,6 +320,7 @@ export class RegistrouserPage implements OnInit {
             message: 'Usuario registrado correctamente.',
             buttons: ['Aceptar'],
           });
+          this.usuariosService.presentToast("Usuario Registrado exitosamente.")
           this.router.navigate(['/login']);
         })
         .catch((error) => {
