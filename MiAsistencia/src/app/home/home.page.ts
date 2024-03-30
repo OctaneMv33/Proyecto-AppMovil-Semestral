@@ -143,6 +143,7 @@ export class HomePage implements OnInit, OnDestroy {
         const palabras = resultado.content.split(','); //SEPARADOR LISTA QR EN "," Asignatura,sección,fecha,horaini,horafin.
         const sigla = palabras[0]
         const seccion = palabras[1]
+        const fecha = palabras[2]
         if(this.asignaturasEstudiante){
           for(let i = 0; i < this.asignaturasEstudiante.length; i++){
             if(sigla == this.asignaturasEstudiante[i].sigla && seccion == this.asignaturasEstudiante[i].seccion){
@@ -164,7 +165,7 @@ export class HomePage implements OnInit, OnDestroy {
             if (this.clase) {
               for (let i = 0; i < this.clase.length; i++) {
                 //Si es que existe esa fecha, valida la clase del dia.
-                if (palabras[2] == this.clase[i].fecha) {
+                if (fecha == this.clase[i].fecha) {
                   this.sameFecha = true;
                 }
               }
